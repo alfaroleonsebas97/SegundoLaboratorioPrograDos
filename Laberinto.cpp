@@ -68,9 +68,13 @@ Laberinto::Laberinto(const Laberinto& orig){
     idVrtFinal = -1;
     Adyacencia adys;
     vertices.resize(cntVrts);
-    for (int i = 0; i < cntVrts; i++) {                                         //recorre el laberinto copiándolo.
-        vertices[i].lstAdy = orig.vertices[i].lstAdy;
-    }
+    
+    vertices = orig.vertices;
+    datosAdys = orig.datosAdys;
+    //for (int i = 0; i < cntVrts; i++) {                                         //recorre el laberinto copiándolo.
+      //  vertices[i].lstAdy = orig.vertices[i].lstAdy;
+    //}
+    
 }
 
 Laberinto::~Laberinto() {
