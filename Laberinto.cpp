@@ -32,7 +32,7 @@ Laberinto::Laberinto(int cantidadVrts, double probabilidadAdy){
         }
     }
 }
-
+//prueba
 Laberinto::Laberinto(ifstream& archivo){
     idVrtInicial = -1;                                                      //inicializa variables.
     idVrtFinal = -1;
