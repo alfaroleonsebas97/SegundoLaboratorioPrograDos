@@ -80,6 +80,7 @@ Laberinto::~Laberinto() {
 
 /* MÉTODOS OBSERVADORES BÁSICOS */
 bool Laberinto::xstVrt(int idVrt) const {
+    return((0<=idVrt)&&(idVrt<=vertices.size()));
 }
 
 bool Laberinto::xstAdy(int idVrtO, int idVrtD) const {
