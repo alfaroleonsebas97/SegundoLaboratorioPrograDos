@@ -12,7 +12,7 @@
  */
 
 #include "Laberinto.h"
-
+//zcxzcxzvzdavsadvdsvdsvdsvsdvds
 Laberinto::Laberinto(int cantidadVrts, double probabilidadAdy){
     vertices.resize(cantidadVrts);                                              //le da tamaño al vector de vértices.
     idVrtInicial = -1;                                                          //inicializa en inválido
