@@ -78,8 +78,7 @@ Laberinto::Laberinto(const Laberinto& orig){
 }
 
 Laberinto::~Laberinto() {
-    //delete vertices;
-    //delete datosAdys;
+    //std::map::~map();
 }
 
 /* MÉTODOS OBSERVADORES BÁSICOS */
