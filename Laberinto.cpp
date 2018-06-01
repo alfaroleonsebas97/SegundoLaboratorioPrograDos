@@ -108,19 +108,28 @@ int Laberinto::obtIdVrtFinal() const {
 }
 
 void Laberinto::obtIdVrtAdys(int idVrt, vector<int>& rsp) const {
-    
+    if (xstVrt(idVrt)) {                                                    //si existe el vértice, obtiene sus adyacencias.
+        //falta
+    }
 }
 
 Adyacencia Laberinto::obtDatoAdy(int idVrtO, int idVrtD) const {
 }
 
 int Laberinto::obtCntAdy(int idVrt) const {
+    return vertices[idVrt].lstAdy.size();
 }
 
 int Laberinto::obtTotAdy() const {
+    int cntTtlAdy = 0;
+    for (int i = 0; i < vertices.size() ; i++) {                                     //obtiene la cantidad total de adyacencias, sumandolas vértice por vértice.
+        cntTtlAdy += vertices[i].lstAdy.size();
+    }
+    return cntTtlAdy;
 }
 
 int Laberinto::obtTotVrt() const {
+    return vertices.size();
 }
 
 int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, vector<int>& camino) const {
