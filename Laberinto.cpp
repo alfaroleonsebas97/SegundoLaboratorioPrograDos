@@ -109,7 +109,10 @@ int Laberinto::obtIdVrtFinal() const {
 
 void Laberinto::obtIdVrtAdys(int idVrt, vector<int>& rsp) const {
     if (xstVrt(idVrt)) {                                                    //si existe el vértice, obtiene sus adyacencias.
-        //falta
+         std::list<int>::const_iterator it;                                  //busca si hay adyacencia entre el vértice origen y el destino.
+        for ( it = vertices[idVrtO].lstAdy.begin(); it != vertices[idVrtO].lstAdy.end(); it++ ){
+            rsp.push_back(*it);
+        }
     }
 }
 
