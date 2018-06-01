@@ -87,9 +87,10 @@ bool Laberinto::xstVrt(int idVrt) const {
 }
 
 bool Laberinto::xstAdy(int idVrtO, int idVrtD) const {
-bool adyacencia = false;
+    bool adyacencia = false;
     if ((xstVrt(idVrtO)) && (xstVrt(idVrtD))) {                             //si ambos vértices existen,
-        list<int>::iterator it;                                             //busca si hay adyacencia entre el vértice origen y el destino.
+        //adyacencia = arregloVrts[idVrtO].lstAdy.buscar(idVrtD);           //busca si hay adyacencia entre el vértice origen y el destino.
+        std::list<int>::const_iterator it;
         for ( it = vertices[idVrtO].lstAdy.begin(); it != vertices[idVrtO].lstAdy.end(); it++ ){
             if( idVrtD == *it ) {
                 adyacencia = true;
