@@ -117,6 +117,14 @@ void Laberinto::obtIdVrtAdys(int idVrt, vector<int>& rsp) const {
 }
 
 Adyacencia Laberinto::obtDatoAdy(int idVrtO, int idVrtD) const {
+    Adyacencia result;
+    if ((xstVrt(idVrtO)) && (xstVrt(idVrtD))){                              //si existen ambos vértices,
+        if (xstAdy(idVrtO, idVrtD)) {                                       //y si existe adyacencia entre ambos, obtiene el dato de adyacencia.
+            int k = obtIndiceAdy(idVrtO, idVrtD);
+            result = arregloAdys[k];
+        }
+    }
+    return result;
 }
 
 int Laberinto::obtCntAdy(int idVrt) const {
