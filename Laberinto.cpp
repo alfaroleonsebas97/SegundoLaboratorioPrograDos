@@ -156,9 +156,19 @@ void Laberinto::asgDatoAdy(int idVrtO, int idVrtD, const Adyacencia& ady) {
 }
 
 void Laberinto::decrementarFerormonaAdys(double decrFerormona) {
+    /*for (int i = 0; i < (cntVrts * (cntVrts + 1) / 2); i++) {
+        if (arregloAdys[i].obtCntFerormona() != (-1.0)) {
+            arregloAdys[i].asgCntFerormona((arregloAdys[i].obtCntFerormona()) * (decrFerormona));
+        }
+    }*/
 }
 
 void Laberinto::actualizarValoracionAdys() {
+    /*for (int i = 0; i < (cntVrts * (cntVrts + 1) / 2); i++) {
+        if (arregloAdys[i].obtValoracion() != (-1.0)) {
+            arregloAdys[i].asgValoracion((arregloAdys[i].obtCntFerormona()) / (sumaTotalFerormona()));
+        }
+    }*/
 }
 
 int Laberinto::obtIndiceAdy(int f, int c) const {
