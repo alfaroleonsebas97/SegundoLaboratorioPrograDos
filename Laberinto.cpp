@@ -87,6 +87,11 @@ bool Laberinto::xstVrt(int idVrt) const {
 }
 
 bool Laberinto::xstAdy(int idVrtO, int idVrtD) const {
+    bool adyacencia = false;
+    if ((xstVrt(idVrtO)) && (xstVrt(idVrtD))) {                             //si ambos vértices existen,
+        //adyacencia = arregloVrts[idVrtO].lstAdy.buscar(idVrtD);             //busca si hay adyacencia entre el vértice origen y el destino.
+    }
+    return adyacencia;
 }
 
 int Laberinto::obtIdVrtInicial() const {
