@@ -150,6 +150,9 @@ void Laberinto::asgIdVrtFinal(int idVrtFinalN) {
 }
 
 void Laberinto::asgDatoAdy(int idVrtO, int idVrtD, const Adyacencia& ady) {
+    if(xstVrt(idVrtO) && xstVrt(idVrtD) ){
+        datosAdys.insert( map<int,Adyacencia>::value_type( obtIndiceAdy(idVrtO,idVrtD), ady) );
+    }
 }
 
 void Laberinto::decrementarFerormonaAdys(double decrFerormona) {
