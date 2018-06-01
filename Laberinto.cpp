@@ -90,6 +90,10 @@ bool Laberinto::xstAdy(int idVrtO, int idVrtD) const {
     bool adyacencia = false;
     if ((xstVrt(idVrtO)) && (xstVrt(idVrtD))) {                             //si ambos vértices existen,
         //adyacencia = arregloVrts[idVrtO].lstAdy.buscar(idVrtD);             //busca si hay adyacencia entre el vértice origen y el destino.
+    for(int i = 0; i < vertices[idVrtO].lstAdy.size();i++){
+        if(idVrtD = vertices[idVrtO].lstAdy[i]) {
+            adyacencia = true;
+        }    
     }
     return adyacencia;
 }
