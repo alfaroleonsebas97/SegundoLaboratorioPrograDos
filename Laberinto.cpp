@@ -142,9 +142,11 @@ double Laberinto::sumaTotalFerormona() const {
 }
 
 void Laberinto::asgIdVrtInicial(int idVrtInicialN) {
+    idVrtInicial = idVrtInicialN;
 }
 
 void Laberinto::asgIdVrtFinal(int idVrtFinalN) {
+    idVrtFinal = idVrtFinalN;    
 }
 
 void Laberinto::asgDatoAdy(int idVrtO, int idVrtD, const Adyacencia& ady) {
