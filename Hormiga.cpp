@@ -54,6 +54,7 @@ bool Hormiga::regreso() {
 }
 
 char Hormiga::obtDestino() {
+    return destino;
 }
 
 string Hormiga::obtMemoria() {
