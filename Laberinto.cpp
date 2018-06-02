@@ -12,6 +12,7 @@
  */
 
 #include "Laberinto.h"
+#include <climits>
 
 Laberinto::Laberinto(int cantidadVrts, double probabilidadAdy){
     vertices.resize(cantidadVrts);                                              //le da tamaño al vector de vértices.
@@ -68,17 +69,11 @@ Laberinto::Laberinto(const Laberinto& orig){
     idVrtFinal = -1;
     Adyacencia adys;
     vertices.resize(cntVrts);
-    
     vertices = orig.vertices;
     datosAdys = orig.datosAdys;
-    //for (int i = 0; i < cntVrts; i++) {                                         //recorre el laberinto copiándolo.
-      //  vertices[i].lstAdy = orig.vertices[i].lstAdy;
-    //}
-    
 }
 
 Laberinto::~Laberinto() {
-    //std::map::~map();
 }
 
 /* MÉTODOS OBSERVADORES BÁSICOS */
@@ -118,11 +113,11 @@ void Laberinto::obtIdVrtAdys(int idVrt, vector<int>& rsp) const {
 
 Adyacencia Laberinto::obtDatoAdy(int idVrtO, int idVrtD) const {
     Adyacencia result;
-    map<int,Adyacencia>::iterator it;
+    map<int,Adyacencia>::const_iterator it;
     if ((xstVrt(idVrtO)) && (xstVrt(idVrtD))){                              //si existen ambos vértices,
         if (xstAdy(idVrtO, idVrtD)) {                                       //y si existe adyacencia entre ambos, obtiene el dato de adyacencia.
             int k = obtIndiceAdy(idVrtO, idVrtD);
-            it = datosAdy.find(k);
+            it = datosAdys.find(k);
             result = it->second;
         }
     }
@@ -147,10 +142,10 @@ int Laberinto::obtTotVrt() const {
 
 int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, vector<int>& camino) const {
     int size = -1;
-    int cntVrts = vertices.size();
-    idVrtInicial = idVrtO;
-    idVrtFinal = idVrtD;
     if (xstVrt(idVrtO) && xstVrt(idVrtD)) {                                 //si existen ambos vértices.
+        int cntVrts = vertices.size();
+        asgIdVrtInicial(idVrtO);
+        asgIdVrtFinal(idVrtD);
         int distancia[cntVrts];                                             //vector de distancias.
         bool visto[cntVrts];                                                //para controlar los vértices visitados.
         for (auto& currentElement: visto) {                                 //inicializa visto en false
@@ -195,16 +190,15 @@ int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, vector<int>& camino) const
         
         //recorre el camino más corto, desde el vértice destino hasta el vértice origen agregándolo en camino
         size = distancia[ idVrtD ] + 1;
-        camino = new int[ size ];
         size = size - 1;
         int k = idVrtD;
         int index = distancia[idVrtD];                                          
         while( antecesores[k] != -1){
-            camino[index] = k;
+            camino.push_back(k);     //No sé.
             index--;
             k = antecesores[k];
         }
-        camino[0] = idVrtO;
+        camino.begin() = idVrtO;       //No sé.
         size = distancia[ idVrtD ];                                         //distancia del camino más corto.
     }
     return size;
@@ -217,11 +211,15 @@ double Laberinto::sumaTotalFerormona() const {
 }
 
 void Laberinto::asgIdVrtInicial(int idVrtInicialN) {
-    idVrtInicial = idVrtInicialN;
+    if(xstVrt(idVrtInicialN)){
+        idVrtInicial = idVrtInicialN;
+    }
 }
 
 void Laberinto::asgIdVrtFinal(int idVrtFinalN) {
-    idVrtFinal = idVrtFinalN;    
+    if(xstVrt(idVrtFinalN)){
+        idVrtFinal = idVrtFinalN;
+    }    
 }
 
 void Laberinto::asgDatoAdy(int idVrtO, int idVrtD, const Adyacencia& ady) {
