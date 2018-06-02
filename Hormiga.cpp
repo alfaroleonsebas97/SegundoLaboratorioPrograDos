@@ -18,9 +18,6 @@ Laberinto* Hormiga::laberinto_p = 0; // inicialización de variable static priva
 Hormiga::Hormiga() {
     idVrtActual = -1; 
     memoria.resize(laberinto_p->obtTotVrt());
-    for (int i = 0; i < memoria.size(); i++) {                                     //asigna -1 en toda la memoria.
-        memoria[i] = -1;
-    }
     haSalido = false; 
     haRegresado = false;
     destino = 'F'; 
