@@ -70,7 +70,9 @@ string Hormiga::obtMemoria() {
 
 void Hormiga::salir() {
     Laberinto& laberinto = *laberinto_p; // para evitar notación ->
-    int x = laberinto.obtIdVrtFinal(); // ejemplo de uso del laberinto
+    idVrtActual = laberinto.obtIdVrtInicial();                              //ubica la hormiga en el nodo inicial.
+    memoria.push_back(idVrtActual);
+    haSalido = true;
 }
 
 void Hormiga::mover() {
