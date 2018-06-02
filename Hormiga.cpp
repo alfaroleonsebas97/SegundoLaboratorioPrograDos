@@ -16,9 +16,30 @@
 Laberinto* Hormiga::laberinto_p = 0; // inicialización de variable static privada
 
 Hormiga::Hormiga() {
+    idVrtActual = -1; 
+    memoria = new int[cntVrts]; 
+    for (int i = 0; i < cntVrts; i++) {                                     //asigna -1 en toda la memoria.
+        memoria[i] = -1;
+    }
+    haSalido = false; 
+    haRegresado = false;
+    destino = 'F'; 
+    enRetroceso = 0;
+    longitudSolucion = 0;
+    deltaFerormona = 0.0;
+    ultMemo = -1;
 }
 
 Hormiga::Hormiga(const Hormiga& orig) {
+    idVrtActual = orig.idVrtActual;
+    memoria = orig.memoria;
+    haSalido = orig.haSalido;
+    haRegresado = orig.haRegresado;
+    destino = orig.destino;
+    enRetroceso = orig.enRetroceso;
+    longitudSolucion = orig.longitudSolucion;
+    deltaFerormona = orig.deltaFerormona;
+    ultMemo = orig.ultMemo;
 }
 
 Hormiga::~Hormiga() {
