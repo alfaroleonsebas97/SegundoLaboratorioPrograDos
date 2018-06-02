@@ -17,8 +17,8 @@ Laberinto* Hormiga::laberinto_p = 0; // inicialización de variable static priva
 
 Hormiga::Hormiga() {
     idVrtActual = -1; 
-    memoria = new int[laberinto_p->obtTotVrt()]; 
-    for (int i = 0; i < laberinto_p->obtTotVrt(); i++) {                                     //asigna -1 en toda la memoria.
+    memoria.resize(laberinto_p->obtTotVrt());
+    for (int i = 0; i < memoria.size(); i++) {                                     //asigna -1 en toda la memoria.
         memoria[i] = -1;
     }
     haSalido = false; 
@@ -27,7 +27,6 @@ Hormiga::Hormiga() {
     enRetroceso = 0;
     longitudSolucion = 0;
     deltaFerormona = 0.0;
-    ultMemo = -1;
 }
 
 Hormiga::Hormiga(const Hormiga& orig) {
@@ -39,7 +38,6 @@ Hormiga::Hormiga(const Hormiga& orig) {
     enRetroceso = orig.enRetroceso;
     longitudSolucion = orig.longitudSolucion;
     deltaFerormona = orig.deltaFerormona;
-    ultMemo = orig.ultMemo;
 }
 
 Hormiga::~Hormiga() {
@@ -48,9 +46,11 @@ Hormiga::~Hormiga() {
 /* OBSERVADORES */
 
 bool Hormiga::salio() {
+    return haSalido;
 }
 
 bool Hormiga::regreso() {
+    return haRegresado;
 }
 
 char Hormiga::obtDestino() {
