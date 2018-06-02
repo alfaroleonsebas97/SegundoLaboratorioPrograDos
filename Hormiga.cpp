@@ -78,6 +78,35 @@ void Hormiga::salir() {
 void Hormiga::mover() {
     Laberinto& laberinto = *laberinto_p; // para evitar notación ->
     int x = laberinto.obtIdVrtFinal(); // ejemplo de uso del laberinto
+   /*for (int i = 0; i < cntVrts; i++) {                                     //asigna -1 en toda la memoria.
+    memoria[i] = -1;
+    }
+    if ( ( haSalido ) && ( !haRegresado) ){                                 //si ya ya salió y no ha regresado.
+        if ( idVrtActual == lbrt.obtIdVrtFinal() ){                         //si ya llegó al vértice final, cambia el destino                                                           //pregtuntar que si ya llegó al final, para empezar a devoverse.
+            destino = 'I';
+            longitudSolucion = ultMemo + 1;                                     //y asigna la longitud de la solución.
+            deltaFerormona = 1.0 / longitudSolucion ;
+        }
+        if( destino == 'I'){                                                //se mueve un vértice de regreso.
+            double  f = lbrt.obtDatoAdy(memoria[ultMemo -1],idVrtActual).obtCntFerormona();
+            lbrt.obtDatoAdy(memoria[ultMemo -1],idVrtActual).asgCntFerormona(f+deltaFerormona);
+            popMemo();
+            if( lbrt.obtIdVrtInicial() == idVrtActual ){
+                haRegresado = true;
+             }
+        }else{   
+            int sgtVrt = seleccionaAdyMasCargada(lbrt);                     //elige el siguiente vértice.
+            if( sgtVrt == -1 ){                                             //si el siguiente vértice es inválido,
+                retroceder();
+            }else{                                                          //sino es un vértice válido.                                                        //se mueve un vértice.
+                if( idVrtActual == lbrt.obtIdVrtFinal()){
+                    longitudSolucion = ultMemo;
+                }    
+                idVrtActual = sgtVrt;
+                pushMemo();
+            }
+        }
+    }*/
 }
 
 void Hormiga::asgLaberinto(Laberinto& lbrt) {
