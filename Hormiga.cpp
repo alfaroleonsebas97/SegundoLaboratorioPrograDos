@@ -17,8 +17,8 @@ Laberinto* Hormiga::laberinto_p = 0; // inicialización de variable static priva
 
 Hormiga::Hormiga() {
     idVrtActual = -1; 
-    memoria = new int[cntVrts]; 
-    for (int i = 0; i < cntVrts; i++) {                                     //asigna -1 en toda la memoria.
+    memoria = new int[laberinto_p->obtTotVrt()]; 
+    for (int i = 0; i < laberinto_p->obtTotVrt(); i++) {                                     //asigna -1 en toda la memoria.
         memoria[i] = -1;
     }
     haSalido = false; 
