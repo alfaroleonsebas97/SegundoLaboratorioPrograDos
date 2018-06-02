@@ -58,6 +58,15 @@ char Hormiga::obtDestino() {
 }
 
 string Hormiga::obtMemoria() {
+    string memoriaHilera = "{";
+    if (-1 != memoria[0]) {                                                 //si hay vértices en memoria,
+        memoriaHilera += memoria[0];                                        //copia el primer vértice en la string.
+        for (int i = 1; i < ultMemo; i++) {                                 //recorre el resto de la memoria.
+            memoriaHilera += "," + memoria[i];                              //copia una coma y el vértice.
+        }
+    }
+    memoriaHilera += "}";
+    return memoriaHilera;                                                   //retorna la hilera de memoria.
 }
 
 /* MÉTODOS MODIFICADORES */
