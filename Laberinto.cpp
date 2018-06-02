@@ -147,6 +147,9 @@ int Laberinto::obtTotVrt() const {
 
 int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, vector<int>& camino) const {
     /*int size = -1;
+    int cntVrts = vertices.size();
+    idVrtInicial = idVrtO;
+    idVrtFinal = idVrtD;
     if (xstVrt(idVrtO) && xstVrt(idVrtD)) {                                 //si existen ambos vértices.
         int distancia[cntVrts];                                             //vector de distancias.
         bool visto[cntVrts];                                                //para controlar los vértices visitados.
