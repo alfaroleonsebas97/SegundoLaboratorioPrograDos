@@ -146,6 +146,65 @@ int Laberinto::obtTotVrt() const {
 }
 
 int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, vector<int>& camino) const {
+    /*int size = -1;
+    if (xstVrt(idVrtO) && xstVrt(idVrtD)) {                                 //si existen ambos vértices.
+        int distancia[cntVrts];                                             //vector de distancias.
+        bool visto[cntVrts];                                                //para controlar los vértices visitados.
+        for (auto& currentElement: visto) {                                 //inicializa visto en false
+           currentElement = false;
+        }
+        int antecesores[cntVrts];
+        for (int i = 0; i < cntVrts; i++) {                                 //recorre todos los vérties
+            if (!xstAdy(idVrtO, i)) {                                       //si no existe adyacencia con el vértice origen,
+                distancia[i] = INT_MAX;                                     //asigna infinito.
+                antecesores[i] = -2;                                        //y un antecesor inválido.
+            } else {                                                        //en el caso de que si exista adyacencia
+                distancia[i] = 1;                                           //asigna peso 1
+                antecesores[i] = idVrtO;                                    //y asigna antecesor el vértice origen.
+            }
+        }
+        distancia[idVrtO] = 0;                                              //invalida el vértice origen y lo pone visitado
+        antecesores[idVrtO] = -1;
+        visto[idVrtO] = true;
+
+        while (visto[idVrtD] == false) {                                    //mientras no estén todos en visto.
+            
+                                                                            //tomar_el_mínimo_del_vector distancia y que no esté visto;
+            int vertice = 0;
+            while( visto[vertice] ){
+                vertice++;
+            }
+            for (int m = 0; m < cntVrts; m++) {
+                if ( ( !visto[m] ) && ( distancia[m] < distancia[vertice] ) ) {
+                    vertice = m;
+                }
+            }
+            visto[vertice] = true;                                          //ese vértice mínimo lo pone en visitado.
+            
+            int* sucesores = arregloVrts[vertice].lstAdy.adyacencias();
+            for( int j = 0; j < obtCntAdy(vertice); j++ ){                  //para cada sucesor
+                if( distancia[sucesores[j]] > ( distancia[vertice] + 1 ) ){ //si el nuevo peso es menor.
+                    distancia[sucesores[j]] = distancia[vertice] + 1;       //cambiar el peso y el antecesor.
+                    antecesores[sucesores[j]] = vertice;
+                }
+            }
+        }
+        
+        //recorre el camino más corto, desde el vértice destino hasta el vértice origen agregándolo en camino
+        size = distancia[ idVrtD ] + 1;
+        camino = new int[ size ];
+        size = size - 1;
+        int k = idVrtD;
+        int index = distancia[idVrtD];                                          
+        while( antecesores[k] != -1){
+            camino[index] = k;
+            index--;
+            k = antecesores[k];
+        }
+        camino[0] = idVrtO;
+        size = distancia[ idVrtD ];                                         //distancia del camino más corto.
+    }
+    return size;*/
 }
 
 int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, vector<int>& camino) const {
