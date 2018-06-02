@@ -31,6 +31,15 @@ Simulador::~Simulador() {
 void Simulador::iniciar(int idVrtInicial, int idVrtFinal, int cntHrm, double decrFerormona, double probMovimientoAzar) {
     // ANTES de crear las hormigas, asigna la referencia al laberinto que accesarán todas.
     Hormiga::asgLaberinto(laberinto); // se asigna laberinto a hormigas
+        /*if ( ( laberinto.xstVrt(idVrtInicial) ) && ( laberinto.xstVrt(idVrtFinal) ) ){
+        laberinto.asgIdVrtInicial(idVrtInicial);
+        laberinto.asgIdVrtFinal(idVrtFinal);
+        cantidadHormigas = cntHrm;
+        this->decrFerormona = decrFerormona;
+        this->probMovimientoAzar = probMovimientoAzar;
+        Hormiga::cntVrts = laberinto.obtTotVrt();
+        hormigas = new Hormiga[cantidadHormigas];*/
+    }
 }
 
 void Simulador::ejecutar(int p) {
