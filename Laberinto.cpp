@@ -146,7 +146,7 @@ int Laberinto::obtTotVrt() const {
 }
 
 int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, vector<int>& camino) const {
-    /*int size = -1;
+    int size = -1;
     int cntVrts = vertices.size();
     idVrtInicial = idVrtO;
     idVrtFinal = idVrtD;
@@ -207,7 +207,7 @@ int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, vector<int>& camino) const
         camino[0] = idVrtO;
         size = distancia[ idVrtD ];                                         //distancia del camino más corto.
     }
-    return size;*/
+    return size;
 }
 
 int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, vector<int>& camino) const {
