@@ -14,9 +14,15 @@
 #include "Simulador.h"
 
 Simulador::Simulador(Laberinto& lbr): laberinto(lbr) {
+    cantidadHormigas = 0;
+    decrFerormona = 0.0;
+    probMovimientoAzar = 0.0;
 }
 
 Simulador::Simulador(const Simulador& orig): laberinto(orig.laberinto){
+    cantidadHormigas = orig.cantidadHormigas;
+    decrFerormona = orig.decrFerormona;
+    probMovimientoAzar = orig.probMovimientoAzar;
 }
 
 Simulador::~Simulador() {
