@@ -179,7 +179,8 @@ int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, vector<int>& camino) const
             }
             visto[vertice] = true;                                          //ese vértice mínimo lo pone en visitado.
             
-            int* sucesores = arregloVrts[vertice].lstAdy.adyacencias();
+            //int* sucesores = arregloVrts[vertice].lstAdy.adyacencias();
+            list<int> sucesores = vertices[vertice].lstAdy;
             for( int j = 0; j < obtCntAdy(vertice); j++ ){                  //para cada sucesor
                 if( distancia[sucesores[j]] > ( distancia[vertice] + 1 ) ){ //si el nuevo peso es menor.
                     distancia[sucesores[j]] = distancia[vertice] + 1;       //cambiar el peso y el antecesor.
