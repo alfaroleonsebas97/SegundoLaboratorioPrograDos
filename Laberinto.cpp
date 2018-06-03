@@ -141,18 +141,16 @@ int Laberinto::obtTotVrt() const {
 }
 
 int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, vector<int>& camino) const {
-    int size = -1;
-    if (xstVrt(idVrtO) && xstVrt(idVrtD)) {                                 //si existen ambos vértices.
-        int cntVrts = vertices.size();
-        asgIdVrtInicial(idVrtO);
-        asgIdVrtFinal(idVrtD);
-        int distancia[cntVrts];                                             //vector de distancias.
+    int size = -1;                                                          //inicializa el tamaño del camino más corto en inválido.
+    if (xstVrt(idVrtO) && xstVrt(idVrtD)) {                                 //verifica la existencia de ambos vértices.
+        int cntVrts = vertices.size();                                      //variable para saber la cantidad de vértices del laberinto.
+        int distancia[cntVrts];                                             //distancias de los caminos más cortos.
         bool visto[cntVrts];                                                //para controlar los vértices visitados.
-        for (auto& currentElement: visto) {                                 //inicializa visto en false
+        for (auto& currentElement: visto) {                                 //inicializa el arreglo visto en false
            currentElement = false;
         }
-        int antecesores[cntVrts];
-        for (int i = 0; i < cntVrts; i++) {                                 //recorre todos los vérties
+        int antecesores[cntVrts];                                           //arreglo de antecesores.
+        for (int i = 0; i < cntVrts; i++) {                                 //recorre todos los vérties.
             if (!xstAdy(idVrtO, i)) {                                       //si no existe adyacencia con el vértice origen,
                 distancia[i] = INT_MAX;                                     //asigna infinito.
                 antecesores[i] = -2;                                        //y un antecesor inválido.
@@ -166,41 +164,41 @@ int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, vector<int>& camino) const
         visto[idVrtO] = true;
 
         while (visto[idVrtD] == false) {                                    //mientras no estén todos en visto.
-            
-                                                                            //tomar_el_mínimo_del_vector distancia y que no esté visto;
-            int vertice = 0;
-            while( visto[vertice] ){
-                vertice++;
+                                                                            //encuentra el menor del arreglo distancia y que no esté visto:
+            int verticeMinimo = 0;                                          //lo inicializa en 0.
+            while( visto[verticeMinimo] ){                                  //y encuentra el primer vértice no visitado.
+                verticeMinimo++;
             }
-            for (int m = 0; m < cntVrts; m++) {
-                if ( ( !visto[m] ) && ( distancia[m] < distancia[vertice] ) ) {
-                    vertice = m;
+            for (int m = 0; m < cntVrts; m++) {                             //encuentra si hay algún vértice menor no visitado.
+                if ( ( !visto[m] ) && ( distancia[m] < distancia[verticeMinimo] ) ) {
+                    verticeMinimo = m;                                      //y lo asigna.
                 }
             }
-            visto[vertice] = true;                                          //ese vértice mínimo lo pone en visitado.
             
-            //int* sucesores = arregloVrts[vertice].lstAdy.adyacencias();
-            list<int> sucesores = vertices[vertice].lstAdy;
-            for( int j = 0; j < obtCntAdy(vertice); j++ ){                  //para cada sucesor
-                if( distancia[sucesores[j]] > ( distancia[vertice] + 1 ) ){ //si el nuevo peso es menor.
-                    distancia[sucesores[j]] = distancia[vertice] + 1;       //cambiar el peso y el antecesor.
-                    antecesores[sucesores[j]] = vertice;
+            visto[verticeMinimo] = true;                                    //pone en visitado el vértice minimo.
+            
+            list<int> sucesores = vertices[verticeMinimo].lstAdy;           //al vector sucesores le asigna la lista de adyacencias del vértice minimo.
+            for (int& current: sucesores){                                  // sucesores[j] = current
+                if( distancia[current] > ( distancia[verticeMinimo] + 1 ) ){//si el nuevo peso es menor.
+                    distancia[current] = distancia[verticeMinimo] + 1;      //asigna el nuevo peso.
+                    antecesores[current] = verticeMinimo;                   //y cambia el antecesor.
                 }
             }
         }
         
-        //recorre el camino más corto, desde el vértice destino hasta el vértice origen agregándolo en camino
-        size = distancia[ idVrtD ] + 1;
-        size = size - 1;
+        //recorre el camino más corto, desde el vértice destino hasta el vértice origen agregándolo en caminoTemp
         int k = idVrtD;
-        int index = distancia[idVrtD];                                          
-        while( antecesores[k] != -1){
-            camino.push_back(k);     //No sé.
-            index--;
-            k = antecesores[k];
+        vector<int> caminoTemp;                                             //donde se almacenatá el camino más corto temporalmente.
+        while( antecesores[k] != -1){                                       //mientras no llegue al primer vértice.
+            caminoTemp.push_back(k);                                        //agregue el último del camino más corto.
+            k = antecesores[k];                                             //cambia el último por el antecesor de este.
         }
-        camino.begin() = idVrtO;       //No sé.
-        size = distancia[ idVrtD ];                                         //distancia del camino más corto.
+        caminoTemp.push_back(idVrtO);                                      //agrega el vértie origen.
+        size = distancia[idVrtD];                                          //distancia del camino más corto.
+        
+        for (int i = caminoTemp.size(); i > 0 ; i--){                       //le da vuelta y lo agrega en camino.
+            camino.push_back( caminoTemp.at(i-1) );
+        }
     }
     return size;
 }
