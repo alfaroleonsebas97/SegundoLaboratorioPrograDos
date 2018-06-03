@@ -12,7 +12,6 @@
  */
 
 #include "Laberinto.h"
-#include <climits>
 
 Laberinto::Laberinto(int cantidadVrts, double probabilidadAdy){
     vertices.resize(cantidadVrts);                                              //le da tamaño al vector de vértices.
@@ -78,7 +77,7 @@ Laberinto::~Laberinto() {
 
 /* MÉTODOS OBSERVADORES BÁSICOS */
 bool Laberinto::xstVrt(int idVrt) const {
-    return((0<=idVrt)&&(idVrt<=vertices.size()));
+    return( (0<=idVrt) && (idVrt<=vertices.size()) );
 }
 
 bool Laberinto::xstAdy(int idVrtO, int idVrtD) const {
@@ -218,7 +217,7 @@ void Laberinto::asgIdVrtInicial(int idVrtInicialN) {
 void Laberinto::asgIdVrtFinal(int idVrtFinalN) {
     if(xstVrt(idVrtFinalN)){
         idVrtFinal = idVrtFinalN;
-    }    
+    }
 }
 
 void Laberinto::asgDatoAdy(int idVrtO, int idVrtD, const Adyacencia& ady) {
