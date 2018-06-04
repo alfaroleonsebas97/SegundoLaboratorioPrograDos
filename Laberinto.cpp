@@ -202,9 +202,9 @@ int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, vector<int>& camino) con
 }
 
 double Laberinto::sumaTotalFerormona() const {
-    double suma = 0.0;
-    for (int i = 0; i < (cntVrts * (cntVrts + 1) / 2); i++) {
-        suma += arregloAdys[i].obtCntFerormona();
+    double suma = 0;
+    for(auto current: datosAdys){ 
+        suma += current.second.obtCntFerormona();
     }
     return suma;
 }
