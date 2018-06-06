@@ -204,7 +204,7 @@ int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, vector<int>& camino) const
 
 int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, vector<int>& camino) const {
     int longitud = -1;
-    if( xstVrt(idVrtO) && xstVrt(idVrtD) ){                                 //si existe ambos vértices.
+    /*if( xstVrt(idVrtO) && xstVrt(idVrtD) ){                                 //si existe ambos vértices.
         int verticeActual = idVrtD;
         vector<int> vecAdy;
         camino.push_back(verticeActual);
@@ -223,14 +223,19 @@ int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, vector<int>& camino) con
             camino.push_back(verticeActual);
             longitud++;
         }
-    }
+    }*/
     return longitud;
 }
 
 double Laberinto::sumaTotalFerormona() const {
     double suma = 0.0;
-    for(auto current: datosAdys){ 
-        suma += current.second.obtCntFerormona();
+    for(int i = 0; i < vertices.size(); i++){                               //recorrer desde el grafo.
+        vector<int> vec;
+        obtIdVrtAdys(i,vec);
+        for(auto current: vec){
+            int clave = obtIndiceAdy(i,current);
+            suma += datosAdys.at(clave).obtCntFerormona();
+        }
     }
     return suma;
 }
@@ -252,7 +257,9 @@ void Laberinto::asgDatoAdy(int idVrtO, int idVrtD, const Adyacencia& ady) {
         cout<< "La cantidad de ferormona de la adyacencia " << idVrtO << " con " << idVrtD << " es:  " <<datosAdys[obtIndiceAdy(idVrtO,idVrtD)].obtCntFerormona()<<endl;
         int clave = obtIndiceAdy(idVrtO,idVrtD);
         cout<<"La clave para esta adyacencia es: "<<clave<<endl;
-        datosAdys.insert( map<int,Adyacencia>::value_type(clave, ady) );//asigna el dato de adyacencia.
+        datosAdys[clave].asgCntFerormona(ady.obtCntFerormona());                              //asigna el dato de adyacencia.
+        cout<< "El nuevo valor es:  "<< datosAdys[obtIndiceAdy(idVrtO,idVrtD)].obtCntFerormona() <<endl;
+        cout<< "-----------------------------------------------------------" <<endl;
     }
 }
 
@@ -275,8 +282,8 @@ void Laberinto::actualizarValoracionAdys() {
 int Laberinto::obtIndiceAdy(int f, int c) const {
     if ( f > c){
         int t = f;
-        f = t;
-        c = f;
+        f = c;
+        c = t;
     }
     return f * vertices.size() + c - f * (f + 1) / 2; 
 }
