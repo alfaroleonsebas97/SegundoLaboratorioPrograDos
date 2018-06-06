@@ -13,6 +13,7 @@
 #include <list>
 #include <vector>
 #include <map>
+#include <climits>
 using namespace std;
 
 #include "Adyacencia.h"
@@ -126,16 +127,18 @@ private:
     // EFE: retorna el índice de la adyacencia de [f,c]
     int obtIndiceAdy(int f, int c) const;
     
+    //int obtValorAdyacente(int i,int j);
+    
     struct Vertice {
         list<int> lstAdy;
-        Vertice(){}; // constructor estándar de un vértice
+        Vertice(){};                    // constructor estándar de un vértice
     };
     
-    int idVrtInicial; // id vértice inicial
-    int idVrtFinal; // id vértice final
+    int idVrtInicial;                   // id vértice inicial
+    int idVrtFinal;                     // id vértice final
 
-    vector<Vertice> vertices; // vector de vértices vectorVrts.size() == cntVrts.
-    map<int,Adyacencia> datosAdys; // mapeo de datos de adyacencias, la clave se calcula con obtIndiceAdy(f,c).
+    vector<Vertice> vertices;           // vector de vértices vectorVrts.size() == cntVrts.
+    map<int,Adyacencia> datosAdys;      // mapeo de datos de adyacencias, la clave se calcula con obtIndiceAdy(f,c).
 };
 
 #endif /* LABERINTO_H */

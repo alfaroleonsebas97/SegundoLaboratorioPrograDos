@@ -273,8 +273,6 @@ void testSumaTotalFerormona() {
             laberinto.obtIdVrtAdys(i,vecAdy);
             for(auto current: vecAdy){
                 laberinto.asgDatoAdy(i,current,ady);
-                cout<< "El nuevo valor es:  "<< laberinto.obtDatoAdy(i,current).obtCntFerormona() <<endl;
-                cout<< "-----------------------------------------------------------" <<endl;
             }
         }
         double totAdy = laberinto.obtTotAdy() * (1.0);
@@ -320,5 +318,4 @@ int main(int argc, char** argv) {
 
     return (EXIT_SUCCESS);
 }
-
 

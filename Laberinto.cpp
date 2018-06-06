@@ -287,4 +287,3 @@ int Laberinto::obtIndiceAdy(int f, int c) const {
     }
     return f * vertices.size() + c - f * (f + 1) / 2; 
 }
-

@@ -13,6 +13,7 @@
 
 #include <fstream>
 #include <iostream>
+#include <vector>
 using namespace std;
 
 #include "Laberinto.h"
@@ -22,11 +23,21 @@ using namespace std;
  * 
  */
 int main(int argc, char** argv) {
+/*
     ifstream archivoEntrada;
     Laberinto laberinto(archivoEntrada);
     Simulador simulador(laberinto);
     vector<int> adyacencias;
     laberinto.obtIdVrtAdys(0, adyacencias); // se modifica "adyacencias"
     return 0;
+    //int x = INT_MAX;
+    //int x = std::numeric_limits<int>::max();
+    //cout<< x <<endl;
+    */
+    ifstream archivo("laberintop.txt");
+    if (archivo.is_open()) {
+        Laberinto laberinto(archivo);
+        Adyacencia ady(1.0,0.0);
+        laberinto.asgDatoAdy(8,3,ady);
+    }
 }
-

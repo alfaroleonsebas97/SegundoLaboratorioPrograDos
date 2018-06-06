@@ -13,13 +13,13 @@
 
 #include "Simulador.h"
 
-Simulador::Simulador(Laberinto& lbr): laberinto(lbr) {
+Simulador::Simulador(Laberinto& lbr) : laberinto(lbr) {
     cantidadHormigas = 0;
     decrFerormona = 0.0;
     probMovimientoAzar = 0.0;
 }
 
-Simulador::Simulador(const Simulador& orig): laberinto(orig.laberinto){
+Simulador::Simulador(const Simulador& orig) : laberinto(orig.laberinto) {
     cantidadHormigas = orig.cantidadHormigas;
     decrFerormona = orig.decrFerormona;
     probMovimientoAzar = orig.probMovimientoAzar;
@@ -29,6 +29,7 @@ Simulador::~Simulador() {
 }
 
 void Simulador::iniciar(int idVrtInicial, int idVrtFinal, int cntHrm, double decrFerormona, double probMovimientoAzar) {
+    // ANTES de crear las hormigas, asigna la referencia al laberinto que accesarán todas.
     Hormiga::asgLaberinto(laberinto); // se asigna laberinto a hormigas
     if ((laberinto.xstVrt(idVrtInicial)) && (laberinto.xstVrt(idVrtFinal))) {
         laberinto.asgIdVrtInicial(idVrtInicial);
