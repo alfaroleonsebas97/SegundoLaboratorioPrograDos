@@ -12,6 +12,10 @@
  */
 
 #include "Laberinto.h"
+using namespace std;
+#include <fstream>
+#include <iostream>
+
 
 Laberinto::Laberinto(int cantidadVrts, double probabilidadAdy){
     vertices.resize(cantidadVrts);                                          //le da tamaño al vector de vértices.
@@ -40,7 +44,7 @@ Laberinto::Laberinto(ifstream& archivo){
     getline(archivo, hileraActual);                                         //lee la primer línea del archivo y la agrega a la hileraActual
     int cntVrts = stoi(hileraActual);                                       //convierte la hileraActual en un entero que representa la cantidad  de vértices.
     Adyacencia adys;                                                        //crea objeto adyacencia.
-    vertices.resize(cntVrts);                                               //le da tamaño al vector de vértices.
+    vertices.resize(cntVrts);                                              //le da tamaño al vector de vértices.
     
     int numeroDeAdyacencia;                                                 //entero temporal para vértices adyacentes.
     string hileraTemporal = "";                                                  //hilera temporal de cada vértice adyacente.
@@ -62,12 +66,12 @@ Laberinto::Laberinto(ifstream& archivo){
     }
 }
 
-Laberinto::Laberinto(const Laberinto& orig){
+Laberinto::Laberinto(const Laberinto& orig){                                //hace una copia de los atributos.
     int cntVrts = orig.vertices.size();
     idVrtInicial = -1;
     idVrtFinal = -1;
     Adyacencia adys;
-    vertices.resize(cntVrts);
+    vertices.reserve(cntVrts);
     vertices = orig.vertices;
     datosAdys = orig.datosAdys;
 }
@@ -188,8 +192,8 @@ int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, vector<int>& camino) const
             caminoTemp.push_back(k);                                        //agregue el último del camino más corto.
             k = antecesores[k];                                             //cambia el último por el antecesor de este.
         }
-        caminoTemp.push_back(idVrtO);                                      //agrega el vértie origen.
-        size = distancia[idVrtD];                                          //distancia del camino más corto.
+        caminoTemp.push_back(idVrtO);                                       //agrega el vértie origen.
+        size = distancia[idVrtD];                                           //distancia del camino más corto.
         
         for (int i = caminoTemp.size(); i > 0 ; i--){                       //le da vuelta y lo agrega en camino.
             camino.push_back( caminoTemp.at(i-1) );
@@ -199,10 +203,32 @@ int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, vector<int>& camino) const
 }
 
 int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, vector<int>& camino) const {
+    int longitud = -1;
+    if( xstVrt(idVrtO) && xstVrt(idVrtD) ){                                 //si existe ambos vértices.
+        int verticeActual = idVrtD;
+        vector<int> vecAdy;
+        camino.push_back(verticeActual);
+        longitud = 1;
+        int verticeAdyacente;
+        while( verticeActual != idVrtO){
+            obtIdVrtAdys(verticeActual,vecAdy);
+            verticeAdyacente = vecAdy[0];
+            int cantidadDeFerormona = obtDatoAdy(verticeActual,vecAdy[0]).obtCntFerormona();
+            for(auto current: vecAdy){
+                if( obtDatoAdy(verticeActual,current).obtCntFerormona() > cantidadDeFerormona ){
+                    verticeAdyacente = current;
+                }
+            }
+            verticeActual = verticeAdyacente;
+            camino.push_back(verticeActual);
+            longitud++;
+        }
+    }
+    return longitud;
 }
 
 double Laberinto::sumaTotalFerormona() const {
-    double suma = 0;
+    double suma = 0.0;
     for(auto current: datosAdys){ 
         suma += current.second.obtCntFerormona();
     }
@@ -223,7 +249,10 @@ void Laberinto::asgIdVrtFinal(int idVrtFinalN) {
 
 void Laberinto::asgDatoAdy(int idVrtO, int idVrtD, const Adyacencia& ady) {
     if( (xstVrt(idVrtO)) && (xstVrt(idVrtD)) ){                             //si existen ambos vértices,
-        datosAdys.insert( map<int,Adyacencia>::value_type( obtIndiceAdy(idVrtO,idVrtD), ady) );//asigna el dato de adyacencia.
+        cout<< "La cantidad de ferormona de la adyacencia " << idVrtO << " con " << idVrtD << " es:  " <<datosAdys[obtIndiceAdy(idVrtO,idVrtD)].obtCntFerormona()<<endl;
+        int clave = obtIndiceAdy(idVrtO,idVrtD);
+        cout<<"La clave para esta adyacencia es: "<<clave<<endl;
+        datosAdys.insert( map<int,Adyacencia>::value_type(clave, ady) );//asigna el dato de adyacencia.
     }
 }
 
@@ -236,9 +265,9 @@ void Laberinto::decrementarFerormonaAdys(double decrFerormona) {
 }
 
 void Laberinto::actualizarValoracionAdys() {
-    for(auto current: datosAdys){                                           //recorre el mapa.
-       if ( current.second.obtValoracion() != (-1.0) ){                   //si la cantidad de ferormona es distinta de -1.
-           current.second.asgValoracion( (current.second.obtCntFerormona()) / (sumaTotalFerormona()) );//actualiza la valoración.
+    for(auto current: datosAdys){                                                                       //recorre el mapa.
+       if ( current.second.obtValoracion() != (-1.0) ){                                                 //si la cantidad de ferormona es distinta de -1.
+           current.second.asgValoracion( (current.second.obtCntFerormona()) / (sumaTotalFerormona()) ); //actualiza la valoración.
        } 
     }
 }
@@ -249,5 +278,6 @@ int Laberinto::obtIndiceAdy(int f, int c) const {
         f = t;
         c = f;
     }
-    return f * vertices.size() + c - f * (f + 1) / 2;
+    return f * vertices.size() + c - f * (f + 1) / 2; 
 }
+
