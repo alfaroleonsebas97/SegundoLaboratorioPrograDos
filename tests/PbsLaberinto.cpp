@@ -275,7 +275,7 @@ void testSumaTotalFerormona() {
                 laberinto.asgDatoAdy(i,current,ady);
             }
         }
-        double totAdy = laberinto.obtTotAdy() * (1.0);
+        double totAdy = laberinto.obtTotAdy();
         cout <<"Cantidad total de adyacencias: " <<totAdy <<endl;
         int suma = laberinto.sumaTotalFerormona();
         cout<< "Suma total de Ferormona: " <<suma <<endl;
