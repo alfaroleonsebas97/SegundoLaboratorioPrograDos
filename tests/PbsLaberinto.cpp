@@ -215,7 +215,7 @@ void testCaminoEncontrado() {
         if ( (result != 1) && (result != 2) ){
             std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=Falló el tamaño del camino encontrado del vértice "<< idVrtO << " al " << idVrtD <<std::endl;
         } 
-        if ( ( camino[0] != idVrtO ) || ( camino[ camino.size()-1 ] != idVrtD) || (result != 1) || (result != 2) ){
+        if ( ( camino[0] != idVrtO ) || ( camino[ camino.size()-1 ] != idVrtD) || ( (result != 1) && (result != 2)) ){
             std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=falló el camino encontrado en la primer prueba"<<std::endl;
         }
         archivo.close();
@@ -231,7 +231,7 @@ void testCaminoEncontrado() {
         if ( (result2 != 2) && (result2 != 3) ) {
             std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=Falló el tamaño del camino encontrado del vértice "<< idVrtO << " al " << idVrtD <<std::endl;
         }
-        if ( ( camino2[0] != idVrtO ) || ( camino2[ camino2.size()-1 ] != idVrtD) || (result2 != 2) || (result2 != 3) ){
+        if ( ( camino2[0] != idVrtO ) || ( camino2[ camino2.size()-1 ] != idVrtD) || ( (result2 != 2) && (result2 != 3) ) ){
             std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=falló el camino encontradoen la segunda prueba"<<std::endl;
         }
         archivo2.close();
@@ -247,7 +247,7 @@ void testCaminoEncontrado() {
         if ( (result3 != 3) && (result3 != 4) ) {
             std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=Falló el tamaño del camino encontrado del vértice "<< idVrtO << " al " << idVrtD <<std::endl;
         }
-        if ( ( camino3[0] != idVrtO ) || ( camino3[ camino3.size()-1 ] != idVrtD) || (result3 != 3) || (result3 != 4) ){
+        if ( ( camino3[0] != idVrtO ) || ( camino3[ camino3.size()-1 ] != idVrtD) || ( (result3 != 3) && (result3 != 4)) ){
             std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=falló el camino encontrado en la tercer prueba"<<std::endl;
         }
         archivo3.close();
