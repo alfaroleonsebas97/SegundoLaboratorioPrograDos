@@ -203,27 +203,28 @@ int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, vector<int>& camino) const
 }
 
 int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, vector<int>& camino) const {
-    int longitud = -1;
-    /*if( xstVrt(idVrtO) && xstVrt(idVrtD) ){                                 //si existe ambos vértices.
+   int longitud = -1;
+    if( xstVrt(idVrtO) && xstVrt(idVrtD) ){                                 //si existe ambos vértices.
         int verticeActual = idVrtD;
         vector<int> vecAdy;
         camino.push_back(verticeActual);
-        longitud = 1;
+        longitud = 0;
         int verticeAdyacente;
         while( verticeActual != idVrtO){
             obtIdVrtAdys(verticeActual,vecAdy);
             verticeAdyacente = vecAdy[0];
-            int cantidadDeFerormona = obtDatoAdy(verticeActual,vecAdy[0]).obtCntFerormona();
-            for(auto current: vecAdy){
-                if( obtDatoAdy(verticeActual,current).obtCntFerormona() > cantidadDeFerormona ){
+            int cantidadDeFerormona = obtDatoAdy(verticeActual,verticeAdyacente).obtCntFerormona();
+            for(int i = 1; i < vecAdy.size(); i++){
+                if( obtDatoAdy(verticeActual,current).obtCntFerormona() >= cantidadDeFerormona ){
                     verticeAdyacente = current;
                 }
             }
+            vecAdy.clear();
             verticeActual = verticeAdyacente;
             camino.push_back(verticeActual);
             longitud++;
         }
-    }*/
+    }
     return longitud;
 }
 
