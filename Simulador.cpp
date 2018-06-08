@@ -42,4 +42,5 @@ void Simulador::iniciar(int idVrtInicial, int idVrtFinal, int cntHrm, double dec
 }
 
 void Simulador::ejecutar(int p) {
+    
 }

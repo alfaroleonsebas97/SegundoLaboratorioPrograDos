@@ -34,10 +34,17 @@ int main(int argc, char** argv) {
     //int x = std::numeric_limits<int>::max();
     //cout<< x <<endl;
     */
-    ifstream archivo("laberintop.txt");
-    if (archivo.is_open()) {
-        Laberinto laberinto(archivo);
-        Adyacencia ady(1.0,0.0);
-        laberinto.asgDatoAdy(8,3,ady);
+    vector<int>a;
+    a.push_back(1);
+    a.push_back(2);
+    a.push_back(3);
+    a.push_back(4);
+    a.push_back(5);
+    a.erase(a.begin()+3);
+    for(auto current:a){
+        if(current==4){
+            a.erase(a.begin()+current);
+        }
+        cout<<current<<endl;
     }
 }

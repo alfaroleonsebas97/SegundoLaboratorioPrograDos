@@ -211,10 +211,18 @@ void testCaminoEncontrado() {
         int idVrtD = 6;
         vector<int> camino;
         Laberinto laberinto(archivo);
+        Adyacencia ady(7.0, 0.0);
+        laberinto.asgDatoAdy(idVrtD,7,ady);
+        ady.asgCntFerormona(8.0);
+        laberinto.asgDatoAdy(idVrtD,0,ady);
+        ady.asgCntFerormona(5.0);
+        laberinto.asgDatoAdy(idVrtD,4,ady);
+        ady.asgCntFerormona(6.0);
+        laberinto.asgDatoAdy(idVrtD,8,ady);
         int result = laberinto.caminoEncontrado(idVrtO, idVrtD, camino);
         if ( (result != 1) && (result != 2) ){
             std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=Falló el tamaño del camino encontrado del vértice "<< idVrtO << " al " << idVrtD <<std::endl;
-        } 
+        }
         if ( ( camino[0] != idVrtO ) || ( camino[ camino.size()-1 ] != idVrtD) || ( (result != 1) && (result != 2)) ){
             std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=falló el camino encontrado en la primer prueba"<<std::endl;
         }
@@ -223,16 +231,22 @@ void testCaminoEncontrado() {
     
     ifstream archivo2("laberintop.txt");
     if (archivo2.is_open()) {
-        int idVrtO = 0;
-        int idVrtD = 9;
+        int idVrtO = 1;
+        int idVrtD = 8;
         vector<int> camino2;
         Laberinto laberinto2(archivo2);
+        Adyacencia ady(6.0, 0.0);
+        laberinto2.asgDatoAdy(idVrtO,2,ady);
+        ady.asgCntFerormona(1.0);
+        laberinto2.asgDatoAdy(idVrtO,0,ady);
+        ady.asgCntFerormona(1.0);
+        laberinto2.asgDatoAdy(2,8,ady);
         int result2 = laberinto2.caminoEncontrado(idVrtO, idVrtD, camino2);
         if ( (result2 != 2) && (result2 != 3) ) {
             std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=Falló el tamaño del camino encontrado del vértice "<< idVrtO << " al " << idVrtD <<std::endl;
         }
         if ( ( camino2[0] != idVrtO ) || ( camino2[ camino2.size()-1 ] != idVrtD) || ( (result2 != 2) && (result2 != 3) ) ){
-            std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=falló el camino encontradoen la segunda prueba"<<std::endl;
+            std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=falló el camino encontrado en la segunda prueba"<<std::endl;
         }
         archivo2.close();
     }
@@ -243,6 +257,12 @@ void testCaminoEncontrado() {
         int idVrtD = 1;
         vector<int> camino3;
         Laberinto laberinto3(archivo3);
+        Adyacencia ady(6.0, 0.0);
+        laberinto3.asgDatoAdy(idVrtO,8,ady);
+        ady.asgCntFerormona(4.0);
+        laberinto3.asgDatoAdy(8,2,ady);
+        ady.asgCntFerormona(3.0);
+        laberinto3.asgDatoAdy(2,1,ady);
         int result3 = laberinto3.caminoEncontrado(idVrtO, idVrtD, camino3);
         if ( (result3 != 3) && (result3 != 4) ) {
             std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=Falló el tamaño del camino encontrado del vértice "<< idVrtO << " al " << idVrtD <<std::endl;
@@ -269,11 +289,7 @@ void testSumaTotalFerormona() {
                 laberinto.asgDatoAdy(i,current,ady);
             }
         }
-        double totAdy = laberinto.obtTotAdy();
-        cout <<"Cantidad total de adyacencias: " <<totAdy <<endl;
-        int suma = laberinto.sumaTotalFerormona();
-        cout<< "Suma total de Ferormona: " <<suma <<endl;
-        if (suma != totAdy ) {
+        if (laberinto.sumaTotalFerormona() != laberinto.obtTotAdy() ) {
             std::cout << "%TEST_FAILED% time=0 testname=testSumaTotalFerormona (Laberinto) message=error message sample" << std::endl;
         }
         archivo.close();

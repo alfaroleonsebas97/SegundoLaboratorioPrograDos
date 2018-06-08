@@ -12,9 +12,6 @@
  */
 
 #include "Laberinto.h"
-using namespace std;
-#include <fstream>
-#include <iostream>
 
 
 Laberinto::Laberinto(int cantidadVrts, double probabilidadAdy){
@@ -203,34 +200,36 @@ int Laberinto::caminoMasCorto(int idVrtO, int idVrtD, vector<int>& camino) const
 }
 
 int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, vector<int>& camino) const {
-    int longitud = -1;
+    int longitud = 0;
     if( xstVrt(idVrtO) && xstVrt(idVrtD) ){                                 //si existe ambos vértices.
-        int verticeActual = idVrtD;
+        int verticeActual = idVrtO;
+        int verticeAdy;
         vector<int> vecAdy;
+        bool encontrado = false;
+        double cntFerormona;
         camino.push_back(verticeActual);
-        longitud = 0;
-        int verticeAdyacente;
-        bool encontrado=false;
-        while( verticeActual != idVrtO){
+        while(!encontrado){
             obtIdVrtAdys(verticeActual,vecAdy);
-            verticeAdyacente = vecAdy[0];
-            if( verticeAdyacente != idVrtO ){
-                int cantidadDeFerormona = obtDatoAdy(verticeActual,verticeAdyacente).obtCntFerormona();
-                for(int i = 1; i < vecAdy.size(); i++){
-                    if(!encontrado){
-                        if( obtDatoAdy(verticeActual,vecAdy[i]).obtCntFerormona() >= cantidadDeFerormona ){
-                            verticeAdyacente = vecAdy[i];
-                            if(vecAdy[i] == idVrtO){
-                                encontrado=true;
-                            }
-                        }
-                    }
+            cntFerormona = 0.0;
+            for(auto current: vecAdy){
+                if(current==idVrtD){
+                    encontrado=true;
+                    camino.push_back(current);
+                    longitud++;
                 }
             }
-            vecAdy.clear();
-            verticeActual = verticeAdyacente;
-            camino.push_back(verticeActual);
-            longitud++;
+            
+            if(!encontrado){
+                for(auto current: vecAdy){
+                    if( obtDatoAdy(verticeActual,current).obtCntFerormona() > cntFerormona && ( find( camino.begin(),camino.end(),current) == camino.end() ) ){
+                        verticeAdy = current;
+                        cntFerormona = obtDatoAdy(verticeActual,current).obtCntFerormona();
+                    }
+                }
+                verticeActual=verticeAdy;
+                camino.push_back(verticeActual);
+                longitud++;
+            }
         }
     }
     return longitud;
@@ -263,12 +262,10 @@ void Laberinto::asgIdVrtFinal(int idVrtFinalN) {
 
 void Laberinto::asgDatoAdy(int idVrtO, int idVrtD, const Adyacencia& ady) {
     if( (xstVrt(idVrtO)) && (xstVrt(idVrtD)) ){                             //si existen ambos vértices,
-        cout<< "La cantidad de ferormona de la adyacencia " << idVrtO << " con " << idVrtD << " es:  " <<datosAdys[obtIndiceAdy(idVrtO,idVrtD)].obtCntFerormona()<<endl;
-        int clave = obtIndiceAdy(idVrtO,idVrtD);
-        cout<<"La clave para esta adyacencia es: "<<clave<<endl;
-        datosAdys[clave].asgCntFerormona(ady.obtCntFerormona());                              //asigna el dato de adyacencia.
-        cout<< "El nuevo valor es:  "<< datosAdys[obtIndiceAdy(idVrtO,idVrtD)].obtCntFerormona() <<endl;
-        cout<< "-----------------------------------------------------------" <<endl;
+        if(xstAdy(idVrtO,idVrtD)){
+            int clave = obtIndiceAdy(idVrtO,idVrtD);
+            datosAdys[clave].asgCntFerormona(ady.obtCntFerormona());        //asigna el dato de adyacencia.
+        }
     }
 }
 

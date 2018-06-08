@@ -17,6 +17,7 @@
 #include <stdlib.h>     /* para srand, rand al moverse*/
 #include <string>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 #include "Laberinto.h"
@@ -63,7 +64,19 @@ public:
 private:
 
     /* ATRIBUTOS ESTÁTICOS PRIVADOS ACCESIBLES POR TODAS LAS HORMIGAS */
-    static Laberinto* laberinto_p; // puntero a laberinto 
+    static Laberinto* laberinto_p; // puntero a laberinto
+    
+    //EFE: retrocede n veces(n=random entre 1 y memoria.size()-1) en el laberinto.
+    void retroceder();
+    
+    // EFE: retorna -1 en caso de que la hormiga llegue a camino sin salida,
+    // y un idVrt válido en caso de que la hormiga pueda continuar.
+    int seleccionaAdyMasCargada();
+
+    /* MÉTODOS AUXILIARES */
+    // REQ: que los idVrt en vrtsPosibles sean índices válidos de vértices en el laberinto que está recorriendo la hormiga.
+    // EFE: elimina de vrtsPosibles los idVrt que ya aparecen en la memoria.
+    void filtraVrtsPosibles(vector<int> vrtsPosibles);
     
     /* ATRIBUTOS PRIVADOS OBLIGATORIOS */
     vector<int> memoria; // vector de idVrt que representa el recorrido de la hormiga

@@ -58,7 +58,7 @@ string Hormiga::obtMemoria() {
     string memoriaHilera = "{";
     if (!memoria.empty()) {                                                 //si hay vértices en memoria,
         memoriaHilera += memoria[0];                                        //copia el primer vértice en la string.
-        for (int i = 1; i < memoria.size(); i++) {                                 //recorre el resto de la memoria.
+        for (int i = 1; i < memoria.size(); i++) {                          //recorre el resto de la memoria.
             memoriaHilera += "," + memoria[i];                              //copia una coma y el vértice.
         }
     }
@@ -69,17 +69,61 @@ string Hormiga::obtMemoria() {
 /* MÉTODOS MODIFICADORES */
 
 void Hormiga::salir() {
-    Laberinto& laberinto = *laberinto_p; // para evitar notación ->
+    Laberinto& laberinto = *laberinto_p;                                    // para evitar notación ->
     idVrtActual = laberinto.obtIdVrtInicial();                              //ubica la hormiga en el nodo inicial.
     memoria.push_back(idVrtActual);
     haSalido = true;
 }
 
 void Hormiga::mover() {
-    Laberinto& laberinto = *laberinto_p; // para evitar notación ->
-    int x = laberinto.obtIdVrtFinal(); // ejemplo de uso del laberinto
+    Laberinto& laberinto = *laberinto_p;                                    //para evitar notación ->
+    int x = laberinto.obtIdVrtFinal();                                      //ejemplo de uso del laberinto
 }
 
+void Hormiga::retroceder() {
+    srand (time(NULL));           
+    enRetroceso = rand ()% (memoria.size()-1) + 1;                          //genera un random,
+    for ( int i = 0; i <= enRetroceso; i++ ){                               //y retrocede esa cantidad de veces.
+        memoria.pop_back();
+    }
+    enRetroceso = 0;
+}
+
+int Hormiga::seleccionaAdyMasCargada(){
+    Laberinto& laberinto = *laberinto_p;                                    //para evitar notación ->
+    int sgtVrt = -1;
+    vector<int> vrtsPosibles;
+    laberinto.obtIdVrtAdys(idVrtActual,vrtsPosibles);
+    filtraVrtsPosibles(vrtsPosibles);
+    if(vrtsPosibles.size()>0){
+        vector<double> vecFerormonas;
+        double sumaFerormonas = 0.0;
+        double ferormona=0.0;
+        int cantidadDeCeros = 0;  
+        for(auto current: vrtsPosibles){
+            ferormona = laberinto.obtDatoAdy(idVrtActual,current).obtCntFerormona();
+            vecFerormonas.push_back(ferormona);
+            sumaFerormonas += ferormona;
+            if(ferormona==0.0){
+                cantidadDeCeros++;
+            }
+        }
+        
+    }
+    return sgtVrt;
+}
+
+void Hormiga::filtraVrtsPosibles(vector<int> vrtsPosibles){
+    Laberinto& laberinto = *laberinto_p;
+    vector<int>sgts;
+    for(auto current: vrtsPosibles){
+        if( (find(vrtsPosibles.begin(), vrtsPosibles.end(), current) != vrtsPosibles.end()) || (laberinto.obtCntAdy(current)==0) ){
+            vrtsPosibles.erase(vrtsPosibles.begin()+current);
+        }
+    }   
+}
+    
+    
 void Hormiga::asgLaberinto(Laberinto& lbrt) {
     Hormiga::laberinto_p = &lbrt; // asigna valor al puntero, indirectamente a referencia!!
 }

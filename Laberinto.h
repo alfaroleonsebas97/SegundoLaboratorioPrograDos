@@ -14,6 +14,7 @@
 #include <vector>
 #include <map>
 #include <climits>
+#include <algorithm>
 using namespace std;
 
 #include "Adyacencia.h"
