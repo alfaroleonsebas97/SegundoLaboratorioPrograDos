@@ -111,6 +111,51 @@ int Hormiga::seleccionaAdyMasCargada(){
         
     }
     return sgtVrt;
+    /*
+    int sgtVrt = -1;                                                        //vértice a escoger.
+    int *ady;                                                               //crea ady.
+    lbrt.obtIdVrtAdys( idVrtActual, ady );                                  //al objeto ady se le asignan las adyacencias del vértice actual.
+    int longitudDeAdy = filtraVrtsPosibles( ady, lbrt.obtIdVrtFinal(), lbrt.obtCntAdy( idVrtActual ) ); //filtra los vértices posibles de ady, y obtiene el nuevo tamaño de ady.
+    if( longitudDeAdy != 0){
+        int cntFerormona[ longitudDeAdy ];                                  //crea un arreglo de ferormonas.
+        int sumaFerormona = 0;                                              //suma de todas las ferormonas.
+        int cantidadDeCeros = 0;                                            //cantidad de adyacencias con ferormona igual a cero
+
+        for (int i = 0; i < longitudDeAdy; i++) {                           //recorro el arreglo de ferormonas
+            cntFerormona[i] = lbrt.obtDatoAdy(idVrtActual, ady[i]).obtCntFerormona(); //asignando la cantidad de ferormona por adyacencia
+            sumaFerormona = sumaFerormona + cntFerormona[i];                //suma la ferormona
+            if (cntFerormona[i] == 0) {                                     //si la ferormona de la adyacencia es cero
+                cantidadDeCeros++;                                          //aumenta cantidadDeCeros
+            }
+        }
+
+        double porcentajes[longitudDeAdy];                                  //arreglo de porcentajes
+        double porcentajeSumado = 0.0;                                      //porcentaje que va de 0 a 1.
+        for (int k = 0; k < longitudDeAdy; k++) {                           //recorre el arreglo de porcentajes
+            if (cntFerormona[k] == 0) {                                     //si la ferormona de la adyacencia es 0, su porcentaje es 0.01 + porcentajeTotal;
+                porcentajes[k] = porcentajeSumado + 0.01;                   //y suma porcentaje.
+                porcentajeSumado = porcentajeSumado + 0.01;
+            } else {                                                        //sino, asigna el porcentaje correspondiente y suma porcentaje.
+                porcentajes[k] = porcentajeSumado + ((cntFerormona[k] / sumaFerormona) * (1 - (cantidadDeCeros * (0.01))));
+                porcentajeSumado = ((cntFerormona[k] / sumaFerormona) * (1 - (cantidadDeCeros * (0.01))));
+            }
+        }
+        
+        srand (time(NULL));
+        double numeroAleatorio = (rand() % 1000 + 1) / 1000.0;              //gerenera un número al azar entre 0 y 1.
+        int m = 0;                                                          //índice para recorrer el arreglo de porcentajes.
+        if (numeroAleatorio < porcentajes[m]) {                             //si el número aleatorio está en el rango del primer vértice,
+            sgtVrt = ady[m];                                                //entonces ese el siguiente vértice a escoger.
+        } else {                                                            //sino sigue buscando hasta encontrarlo.
+            while ( numeroAleatorio >= porcentajes[m] ) {
+                m++;
+                if ( numeroAleatorio < porcentajes[m] ) {                   //si encuentra el rango.
+                    sgtVrt = ady[m];                                        //asigna el siguiente vértice.
+                }
+            }
+        }
+    }
+    return sgtVrt;                */
 }
 
 void Hormiga::filtraVrtsPosibles(vector<int> vrtsPosibles){
