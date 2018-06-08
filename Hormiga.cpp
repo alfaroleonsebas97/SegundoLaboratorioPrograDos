@@ -88,6 +88,7 @@ void Hormiga::mover() {
              memoria.push_back(idVrtActual);
              longitudSolucion++;
              destino = 'I';
+             deltaFerormona = 1/longitudSolucion;    
             } else{
             idVrtActual = sgt;
             memoria.push_back(idVrtActual);
@@ -95,7 +96,9 @@ void Hormiga::mover() {
             }  
          }
      } 
-       if(destino == 'I'){   
+       if(destino == 'I'){  
+        Adyacencia ady(deltaFerormona,0.0);
+        laberinto.asgDatoAdy(idVrtActual, memoria[memoria.size()-1] , ady);
         idVrtActual = memoria[memoria.size()-1];
         memoria.pop_back();
            if(idVrtActual == laberinto.obtIdVrtInicial()){
