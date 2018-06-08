@@ -77,22 +77,33 @@ void Hormiga::salir() {
 
 void Hormiga::mover() {
     Laberinto& laberinto = *laberinto_p;                                    //para evitar notación ->
-    int sgt = seleccionaAdyMasCargada();
-    if(sgt == -1){
-        
-    }  
+    if(!haRegresado){ 
         if(destino == 'F'){
+             int sgt = seleccionaAdyMasCargada();
+             if(sgt == -1){
+                retroceder();   
+             }else{
              if(sgt == laberinto.obtIdVrtFinal()){
              idVrtActual = sgt;
              memoria.push_back(idVrtActual);
              longitudSolucion++;
              destino = 'I';
-          } else{
+            } else{
             idVrtActual = sgt;
             memoria.push_back(idVrtActual);
             longitudSolucion++;  
-        }      
-    }    
+            }  
+         }
+     } 
+       if(destino == 'I'){   
+        idVrtActual = memoria[memoria.size()-1];
+        memoria.pop_back();
+           if(idVrtActual == laberinto.obtIdVrtInicial()){
+           haRegresado = true;
+           memoria.pop_back();
+           }
+       }
+    }
 }
 
 void Hormiga::retroceder() {
