@@ -77,7 +77,7 @@ void testMover() {
         hormiga4.asgLaberinto(lbrt);
         lbrt.asgIdVrtInicial(0);
         lbrt.asgIdVrtFinal(3);
-        hormiga4.salir(0);
+        hormiga4.salir();
         for (int i = 0; i < 6; i++) {
             hormiga4.mover();
         }
