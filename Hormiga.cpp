@@ -77,7 +77,22 @@ void Hormiga::salir() {
 
 void Hormiga::mover() {
     Laberinto& laberinto = *laberinto_p;                                    //para evitar notación ->
-    int x = laberinto.obtIdVrtFinal();                                      //ejemplo de uso del laberinto
+    int sgt = seleccionaAdyMasCargada();
+    if(sgt == -1){
+        
+    }  
+        if(destino == 'F'){
+             if(sgt == laberinto.obtIdVrtFinal()){
+             idVrtActual = sgt;
+             memoria.push_back(idVrtActual);
+             longitudSolucion++;
+             destino = 'I';
+          } else{
+            idVrtActual = sgt;
+            memoria.push_back(idVrtActual);
+            longitudSolucion++;  
+        }      
+    }    
 }
 
 void Hormiga::retroceder() {
@@ -85,7 +100,9 @@ void Hormiga::retroceder() {
     enRetroceso = rand ()% (memoria.size()-1) + 1;                          //genera un random,
     for ( int i = 0; i <= enRetroceso; i++ ){                               //y retrocede esa cantidad de veces.
         memoria.pop_back();
+        longitudSolucion--;
     }
+    idVrtActual = memoria[memoria.size()-1];
     enRetroceso = 0;
 }
 
