@@ -109,6 +109,18 @@ int Hormiga::seleccionaAdyMasCargada(){
             }
         }
         
+        vector<double> vecPorcentajes;
+        double porcentajeSumado = 0.0;
+        for (int k = 0; k < vecFerormonas.size(); k++) {
+            if (vecFerormonas[k] == 0) {
+                vecPorcentajes[k] = porcentajeSumado + 0.01;
+                porcentajeSumado = porcentajeSumado + 0.01;
+            } else {
+                vecPorcentajes[k] = porcentajeSumado + ((vecFerormonas[k] / sumaFerormonas) * (1 - (cantidadDeCeros * (0.01))));
+                porcentajeSumado = ((vecFerormonas[k] / sumaFerormonas) * (1 - (cantidadDeCeros * (0.01))));
+            }
+        }
+        
     }
     return sgtVrt;
     /*
