@@ -124,12 +124,12 @@ int Hormiga::seleccionaAdyMasCargada(){
         srand (time(NULL));
         double numeroAleatorio = (rand() % 1000 + 1) / 1000.0;
         int m = 0;
-        if (numeroAleatorio < vecPorcentajes[m]) {
+        if (numeroAleatorio <= vecPorcentajes[m]) {
             sgtVrt = vrtsPosibles[m];
         } else {
-            while ( numeroAleatorio >= vecPorcentajes[m] ) {
+            while ( numeroAleatorio > vecPorcentajes[m] ) {
                 m++;
-                if ( numeroAleatorio < vecPorcentajes[m] ) {
+                if ( numeroAleatorio <= vecPorcentajes[m] ) {
                     sgtVrt = vrtsPosibles[m];
                 }
             }
