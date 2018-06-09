@@ -271,7 +271,7 @@ void Laberinto::asgDatoAdy(int idVrtO, int idVrtD, const Adyacencia& ady) {
 
 void Laberinto::decrementarFerormonaAdys(double decrFerormona) {
     for(auto current: datosAdys){                                           //recorre el mapa.
-       if ( current.second.obtCntFerormona() != (-1.0) ){                   //si la cantidad de ferormona es distinta de -1.
+       if ( current.second.obtCntFerormona() > (0.0) ){                   //si la cantidad de ferormona es distinta de -1.
            current.second.asgCntFerormona( (current.second.obtCntFerormona()) * (decrFerormona));//descrementa la cantidad de ferormona.
        } 
     }
@@ -279,7 +279,7 @@ void Laberinto::decrementarFerormonaAdys(double decrFerormona) {
 
 void Laberinto::actualizarValoracionAdys() {
     for(auto current: datosAdys){                                                                       //recorre el mapa.
-       if ( current.second.obtValoracion() != (-1.0) ){                                                 //si la cantidad de ferormona es distinta de -1.
+       if ( current.second.obtValoracion() > (0.0) ){                                                 //si la cantidad de ferormona es distinta de -1.
            current.second.asgValoracion( (current.second.obtCntFerormona()) / (sumaTotalFerormona()) ); //actualiza la valoración.
        } 
     }

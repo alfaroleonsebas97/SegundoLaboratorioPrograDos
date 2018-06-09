@@ -13,11 +13,16 @@
 
 #include "Hormiga.h"
 
+#include <fstream>
+#include <iostream>
+using namespace std;
+
 Laberinto* Hormiga::laberinto_p = 0; // inicialización de variable static privada
 
 Hormiga::Hormiga() {
-    idVrtActual = -1; 
-    memoria.reserve(laberinto_p->obtTotVrt());
+    idVrtActual = -1;
+    //cout<<laberinto_p->obtTotVrt()<<endl;
+    //memoria.reserve(laberinto_p->obtTotVrt());
     haSalido = false; 
     haRegresado = false;
     destino = 'F'; 
@@ -56,11 +61,13 @@ char Hormiga::obtDestino() {
 
 string Hormiga::obtMemoria() {
     string memoriaHilera = "{";
-    if (!memoria.empty()) {                                                 //si hay vértices en memoria,
-        memoriaHilera += memoria[0];                                        //copia el primer vértice en la string.
-        for (int i = 1; i < memoria.size(); i++) {                          //recorre el resto de la memoria.
-            memoriaHilera += "," + memoria[i];                              //copia una coma y el vértice.
+    int k = 7;
+    if (!memoria.empty()) {
+        for (auto current: memoria) {
+            memoriaHilera += to_string(current);
+            memoriaHilera.push_back(','); 
         }
+        memoriaHilera.pop_back();
     }
     memoriaHilera += "}";
     return memoriaHilera; 
@@ -76,36 +83,45 @@ void Hormiga::salir() {
 }
 
 void Hormiga::mover() {
-    Laberinto& laberinto = *laberinto_p;                                    //para evitar notación ->
-    if(!haRegresado){ 
-        if(destino == 'F'){
-             int sgt = seleccionaAdyMasCargada();
-             if(sgt == -1){
-                retroceder();   
-             }else{
-             if(sgt == laberinto.obtIdVrtFinal()){
-             idVrtActual = sgt;
-             memoria.push_back(idVrtActual);
-             longitudSolucion++;
-             destino = 'I';
-             deltaFerormona = 1/longitudSolucion;    
+    if(haSalido){
+        Laberinto& laberinto = *laberinto_p;                                    //para evitar notación ->
+        if(!haRegresado){ 
+            if(destino == 'F'){
+                int sgt = seleccionaAdyMasCargada();
+                if(sgt == -1){
+                    retroceder();
+                    cout<<"retroceso"<<endl;
+                }else{
+                    if(sgt == laberinto.obtIdVrtFinal()){
+                        idVrtActual = sgt;
+                        cout<<"meto en memoria: "<<idVrtActual<<endl;
+                        memoria.push_back(idVrtActual);
+                        longitudSolucion++;
+                        destino = 'I';
+                        deltaFerormona = 1/longitudSolucion;    
+                    } else{
+                        idVrtActual = sgt;
+                        cout<<"meto en memoria: "<<idVrtActual<<endl;
+                        memoria.push_back(idVrtActual);
+                        longitudSolucion++;  
+                    }  
+                }
             } else{
-            idVrtActual = sgt;
-            memoria.push_back(idVrtActual);
-            longitudSolucion++;  
-            }  
-         }
-     } 
-       if(destino == 'I'){  
-        Adyacencia ady(deltaFerormona,0.0);
-        laberinto.asgDatoAdy(idVrtActual, memoria[memoria.size()-1] , ady);
-        idVrtActual = memoria[memoria.size()-1];
-        memoria.pop_back();
-           if(idVrtActual == laberinto.obtIdVrtInicial()){
-           haRegresado = true;
-           memoria.pop_back();
-           }
-       }
+                if(destino == 'I'){  
+                    Adyacencia ady(deltaFerormona,0.0);
+                    laberinto.asgDatoAdy(idVrtActual, memoria[memoria.size()-1] , ady);
+                    idVrtActual = memoria[memoria.size()-1];
+                    memoria.pop_back();
+                    if(idVrtActual == laberinto.obtIdVrtInicial()){
+                        haRegresado = true;
+                        memoria.pop_back();
+                    }
+                }
+            }
+        }
+        for(auto current: memoria){
+            cout<<"memoria"<<current<<endl;
+        }
     }
 }
 
@@ -126,6 +142,7 @@ int Hormiga::seleccionaAdyMasCargada(){
     vector<int> vrtsPosibles;
     laberinto.obtIdVrtAdys(idVrtActual,vrtsPosibles);
     filtraVrtsPosibles(vrtsPosibles);
+    
     if(vrtsPosibles.size()>0){
         vector<double> vecFerormonas;
         double sumaFerormonas = 0.0;
@@ -143,11 +160,11 @@ int Hormiga::seleccionaAdyMasCargada(){
         vector<double> vecPorcentajes;
         double porcentajeSumado = 0.0;
         for (int k = 0; k < vecFerormonas.size(); k++) {
-            if (vecFerormonas[k] == 0) {
-                vecPorcentajes[k] = porcentajeSumado + 0.01;
+            if (vecFerormonas[k] == 0.0) {
+                vecPorcentajes.push_back(porcentajeSumado + 0.01);
                 porcentajeSumado = porcentajeSumado + 0.01;
             } else {
-                vecPorcentajes[k] = porcentajeSumado + ((vecFerormonas[k] / sumaFerormonas) * (1 - (cantidadDeCeros * (0.01))));
+                vecPorcentajes.push_back( porcentajeSumado + ( (vecFerormonas[k] / sumaFerormonas) * (1 - (cantidadDeCeros * (0.01))) ) );
                 porcentajeSumado = ((vecFerormonas[k] / sumaFerormonas) * (1 - (cantidadDeCeros * (0.01))));
             }
         }
@@ -169,16 +186,22 @@ int Hormiga::seleccionaAdyMasCargada(){
     return sgtVrt;
 }
 
-void Hormiga::filtraVrtsPosibles(vector<int> vrtsPosibles){
+void Hormiga::filtraVrtsPosibles(vector<int> &vrtsPosibles){
     Laberinto& laberinto = *laberinto_p;
-    vector<int>sgts;
     for(auto current: vrtsPosibles){
-        if( (find(vrtsPosibles.begin(), vrtsPosibles.end(), current) != vrtsPosibles.end()) || (laberinto.obtCntAdy(current)==0) ){
-            vrtsPosibles.erase(vrtsPosibles.begin()+current);
+        cout<<"elemento antes: "<<current<<endl;
+    }
+    vector<int> copia;
+    for(auto current: vrtsPosibles){
+        if( find(memoria.begin(), memoria.end(), current) == memoria.end() ){
+            copia.push_back(current);
         }
-    }   
+    }
+    vrtsPosibles = copia;
+    for(auto current: vrtsPosibles){
+        cout<<"elemento después: "<<current<<endl;
+    }
 }
-    
     
 void Hormiga::asgLaberinto(Laberinto& lbrt) {
     Hormiga::laberinto_p = &lbrt; // asigna valor al puntero, indirectamente a referencia!!

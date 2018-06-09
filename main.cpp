@@ -23,28 +23,19 @@ using namespace std;
  * 
  */
 int main(int argc, char** argv) {
-/*
-    ifstream archivoEntrada;
-    Laberinto laberinto(archivoEntrada);
-    Simulador simulador(laberinto);
-    vector<int> adyacencias;
-    laberinto.obtIdVrtAdys(0, adyacencias); // se modifica "adyacencias"
-    return 0;
-    //int x = INT_MAX;
-    //int x = std::numeric_limits<int>::max();
-    //cout<< x <<endl;
-    */
-    vector<int>a;
-    a.push_back(1);
-    a.push_back(2);
-    a.push_back(3);
-    a.push_back(4);
-    a.push_back(5);
-    a.erase(a.begin()+3);
-    for(auto current:a){
-        if(current==4){
-            a.erase(a.begin()+current);
-        }
-        cout<<current<<endl;
+    ifstream archivo("laberintop.txt");
+    if (archivo.is_open()) {
+        ifstream archivoEntrada;
+        Laberinto laberinto(archivo);
+        Simulador simulador(laberinto);
+        //preguntar
+        simulador.iniciar(0,8,30,0.95,0.3);
+        simulador.ejecutar(1000);
+        
+        simulador.iniciar(0,6,300,0.95,0.3);
+        simulador.ejecutar(10000);
+        //vector<int> adyacencias;
+        //laberinto.obtIdVrtAdys(0, adyacencias); // se modifica "adyacencias"
     }
+    return 0;
 }

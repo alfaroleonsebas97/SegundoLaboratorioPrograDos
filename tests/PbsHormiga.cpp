@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include "Hormiga.h"
+#include "Adyacencia.h"
 
 /*
  * Simple C++ Test Suite
@@ -25,6 +26,10 @@ void testMover() {
     ifstream archivo("LaberintoPruebaCaminoSimple.txt");
     if (archivo.is_open()) {
         Laberinto lbrt(archivo);
+        Adyacencia ady(10.0,0.0);
+        lbrt.asgDatoAdy(0,1,ady);
+        lbrt.asgDatoAdy(1,2,ady);
+        lbrt.asgDatoAdy(2,3,ady);
         Hormiga hormiga;
         hormiga.asgLaberinto(lbrt);
         lbrt.asgIdVrtInicial(0);
@@ -34,6 +39,8 @@ void testMover() {
         }
         if ( "{0,1,2,3}" == hormiga.obtMemoria() ) {
             std::cout << "%TEST_FAILED% time=0 testname=testMover (PbsHormiga) message=La hormiga llegó a camino sin salida y no retrocedió" << std::endl;
+        }else{
+            std::cout <<"pasó la primer prueba"<<std::endl;
         }
         archivo.close();
     }
@@ -41,6 +48,10 @@ void testMover() {
     ifstream archivo2("LaberintoPruebaCaminoEnciclado.txt");
     if (archivo2.is_open()) {
         Laberinto lbrt(archivo2);
+        Adyacencia ady(10.0,0.0);
+        lbrt.asgDatoAdy(0,1,ady);
+        lbrt.asgDatoAdy(1,2,ady);
+        lbrt.asgDatoAdy(2,3,ady);
         Hormiga hormiga2;
         hormiga2.asgLaberinto(lbrt);
         lbrt.asgIdVrtInicial(0);
@@ -51,28 +62,39 @@ void testMover() {
         if ( hormiga2.obtMemoria().size() >= 9  ) {
             std::cout << "%TEST_FAILED% time=0 testname=testMover (PbsHormiga) message=La hormiga se encicló y no retrocedió" << std::endl;
         }
+        else{std::cout<<"pasó la segunda prueba"<<std::endl;}
         archivo2.close();
     }
     
     ifstream archivo3("LaberintoPruebaCaminoSimple.txt");
     if (archivo3.is_open()) {
         Laberinto lbrt(archivo3);
+        Adyacencia ady(10.0,0.0);
+        lbrt.asgDatoAdy(0,1,ady);
+        lbrt.asgDatoAdy(1,2,ady);
+        lbrt.asgDatoAdy(2,3,ady);
         Hormiga hormiga3;
         hormiga3.asgLaberinto(lbrt);
         lbrt.asgIdVrtInicial(0);
+        lbrt.asgIdVrtFinal(3);
         hormiga3.salir();
         for (int i = 0; i < 3; i++) {
             hormiga3.mover();
         }
         if ( hormiga3.obtMemoria() != "{0,1,2,3}" ) {
             std::cout << "%TEST_FAILED% time=0 testname=testMover (PbsHormiga) message=La hormiga no llegó al vértice final" << std::endl;
-        }
+        }else{std::cout<<"pasó la tercer prueba"<<std::endl;}
+        std::cout<<hormiga3.obtMemoria()<<std::endl;
         archivo3.close();
     }
     
     ifstream archivo4("LaberintoPruebaCaminoSimple.txt");
     if (archivo4.is_open()) {
         Laberinto lbrt(archivo4);
+        Adyacencia ady(10.0,0.0);
+        lbrt.asgDatoAdy(0,1,ady);
+        lbrt.asgDatoAdy(1,2,ady);
+        lbrt.asgDatoAdy(2,3,ady);
         Hormiga hormiga4;
         hormiga4.asgLaberinto(lbrt);
         lbrt.asgIdVrtInicial(0);
@@ -84,6 +106,7 @@ void testMover() {
         if ( (hormiga4.obtMemoria() != "{}") && (hormiga4.regreso()) ) {
             std::cout << "%TEST_FAILED% time=0 testname=testMover (PbsHormiga) message=La hormiga no regresó" << std::endl;
         }
+        else{std::cout<<"pasó la cuarta prueba"<<std::endl;}
     }
     archivo4.close();
 }
