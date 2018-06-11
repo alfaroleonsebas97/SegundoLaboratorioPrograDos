@@ -159,7 +159,7 @@ void testCaminoMasCorto() {
         int caminoAProbar[] = {9,5};
         for(int i = 0; i < result + 1 ; i++){
             if ( camino[i] != caminoAProbar[i] ){
-                std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=falló el camino más corto en la segunda prueba"<<std::endl;
+                std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=Falló el camino más corto en la segunda prueba"<<std::endl;
             }
         }
         archivo.close();
@@ -178,7 +178,7 @@ void testCaminoMasCorto() {
         int caminoAProbar[] = {9,5,0};
         for(int i = 0; i < result2 + 1 ; i++){
             if ( camino2[i] != caminoAProbar[i] ){
-                std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=falló el camino más corto en la segunda prueba"<<std::endl;
+                std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=Falló el camino más corto en la segunda prueba"<<std::endl;
             }
         }
         archivo2.close();
@@ -197,7 +197,7 @@ void testCaminoMasCorto() {
         int caminoAProbar[] = {3,8,2,1};
         for(int i = 0; i < result3 + 1 ; i++){
             if ( camino3[i] != caminoAProbar[i] ){
-                std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=falló el camino más corto en la tercera prueba"<<std::endl;
+                std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=Falló el camino más corto en la tercera prueba"<<std::endl;
             }
         }
         archivo3.close();
@@ -224,7 +224,7 @@ void testCaminoEncontrado() {
             std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=Falló el tamaño del camino encontrado del vértice "<< idVrtO << " al " << idVrtD <<std::endl;
         }
         if ( ( camino[0] != idVrtO ) || ( camino[ camino.size()-1 ] != idVrtD) || ( (result != 1) && (result != 2)) ){
-            std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=falló el camino encontrado en la primer prueba"<<std::endl;
+            std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=Falló el camino encontrado en la primer prueba"<<std::endl;
         }
         archivo.close();
     }
@@ -246,7 +246,7 @@ void testCaminoEncontrado() {
             std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=Falló el tamaño del camino encontrado del vértice "<< idVrtO << " al " << idVrtD <<std::endl;
         }
         if ( ( camino2[0] != idVrtO ) || ( camino2[ camino2.size()-1 ] != idVrtD) || ( (result2 != 2) && (result2 != 3) ) ){
-            std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=falló el camino encontrado en la segunda prueba"<<std::endl;
+            std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=Falló el camino encontrado en la segunda prueba"<<std::endl;
         }
         archivo2.close();
     }
@@ -268,7 +268,7 @@ void testCaminoEncontrado() {
             std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=Falló el tamaño del camino encontrado del vértice "<< idVrtO << " al " << idVrtD <<std::endl;
         }
         if ( ( camino3[0] != idVrtO ) || ( camino3[ camino3.size()-1 ] != idVrtD) || ( (result3 != 3) && (result3 != 4)) ){
-            std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=falló el camino encontrado en la tercer prueba"<<std::endl;
+            std::cout << "%TEST_FAILED% time=0 testname=testCaminoMasCorto (Laberinto) message=Falló el camino encontrado en la tercer prueba"<<std::endl;
         }
         archivo3.close();
     }
@@ -290,7 +290,7 @@ void testSumaTotalFerormona() {
             }
         }
         if (laberinto.sumaTotalFerormona() != laberinto.obtTotAdy() ) {
-            std::cout << "%TEST_FAILED% time=0 testname=testSumaTotalFerormona (Laberinto) message=error message sample" << std::endl;
+            std::cout << "%TEST_FAILED% time=0 testname=testSumaTotalFerormona (Laberinto) message=Falla la suma total de ferormona" << std::endl;
         }
         archivo.close();
     }
@@ -300,9 +300,9 @@ int main(int argc, char** argv) {
     std::cout << "%SUITE_STARTING% Laberinto" << std::endl;
     std::cout << "%SUITE_STARTED%" << std::endl;
 
-    //std::cout << "%TEST_STARTED% testLaberinto (Laberinto)" << std::endl;
-    //testLaberinto();
-    //std::cout << "%TEST_FINISHED% time=0 testLaberinto (Laberinto)" << std::endl;
+    std::cout << "%TEST_STARTED% testLaberinto (Laberinto)" << std::endl;
+    testLaberinto();
+    std::cout << "%TEST_FINISHED% time=0 testLaberinto (Laberinto)" << std::endl;
 
     std::cout << "%TEST_STARTED% testLaberinto2 (Laberinto)" << std::endl;
     testLaberinto2();

@@ -13,16 +13,10 @@
 
 #include "Hormiga.h"
 
-#include <fstream>
-#include <iostream>
-using namespace std;
-
 Laberinto* Hormiga::laberinto_p = 0; // inicialización de variable static privada
 
 Hormiga::Hormiga() {
     idVrtActual = -1;
-    //cout<<laberinto_p->obtTotVrt()<<endl;
-    //memoria.reserve(laberinto_p->obtTotVrt());
     haSalido = false; 
     haRegresado = false;
     destino = 'F'; 
@@ -60,67 +54,60 @@ char Hormiga::obtDestino() {
 }
 
 string Hormiga::obtMemoria() {
-    string memoriaHilera = "{";
-    int k = 7;
-    if (!memoria.empty()) {
-        for (auto current: memoria) {
-            memoriaHilera += to_string(current);
-            memoriaHilera.push_back(','); 
+    string memoriaHilera = "{";                                             //Abre corchetes
+    if (!memoria.empty()) {                                                 //Si la memoria no está vacía
+        for (auto current: memoria) {                                       //Recorre la memoria 
+            memoriaHilera += to_string(current);                            //Agrega cada elemento de la memoria en una hilera
+            memoriaHilera.push_back(',');                                   //Agrega una coma después de cada elemento
         }
-        memoriaHilera.pop_back();
+        memoriaHilera.pop_back();                                           //Borra la última coma
     }
-    memoriaHilera += "}";
-    return memoriaHilera; 
+    memoriaHilera += "}";                                                   //Cierra corchetes
+    return memoriaHilera;                                                   //Retorna la memoria copiada en la hilera
 }
 
 /* MÉTODOS MODIFICADORES */
 
 void Hormiga::salir() {
     Laberinto& laberinto = *laberinto_p;                                    // para evitar notación ->
-    idVrtActual = laberinto.obtIdVrtInicial();                              //ubica la hormiga en el nodo inicial.
-    memoria.push_back(idVrtActual);
-    haSalido = true;
+    idVrtActual = laberinto.obtIdVrtInicial();                              //Obtiene el nodo inicial
+    memoria.push_back(idVrtActual);                                         //Ubica la hormiga en el nodo inicial.
+    haSalido = true;                                                        //Indica que la hormiga ha salido
 }
 
 void Hormiga::mover() {
-    if(haSalido){
-        Laberinto& laberinto = *laberinto_p;                                    //para evitar notación ->
-        if(!haRegresado){ 
-            if(destino == 'F'){
-                int sgt = seleccionaAdyMasCargada();
-                if(sgt == -1){
-                    retroceder();
-                    cout<<"retroceso"<<endl;
-                }else{
-                    if(sgt == laberinto.obtIdVrtFinal()){
-                        idVrtActual = sgt;
-                        cout<<"meto en memoria: "<<idVrtActual<<endl;
-                        memoria.push_back(idVrtActual);
-                        longitudSolucion++;
-                        destino = 'I';
-                        deltaFerormona = 1/longitudSolucion;    
-                    } else{
-                        idVrtActual = sgt;
-                        cout<<"meto en memoria: "<<idVrtActual<<endl;
-                        memoria.push_back(idVrtActual);
-                        longitudSolucion++;  
+    if(haSalido){                                                           //Si la hormiga salió
+        Laberinto& laberinto = *laberinto_p;                                //para evitar notación ->
+        if(!haRegresado){                                                   //Si la hormiga no ha regresado
+            if(destino == 'F'){                                             //Si la hormiga va hacia el vértice final
+                int sgt = seleccionaAdyMasCargada();                        //Selecciona la adyacencia más cargada de ferormona
+                if(sgt == -1){                                              //Si es una adyacencia inválida
+                    retroceder();                                           //Retrocede
+                }else{                                                      //Si es una adyacencia válida
+                    if(sgt == laberinto.obtIdVrtFinal()){                   //Si la adyacencia a moverse es el vértice final
+                        idVrtActual = sgt;                                  //La copia en la varible verticeActual
+                        memoria.push_back(idVrtActual);                     //Agrega el vertice actual a la memoria
+                        longitudSolucion++;                                 //Aumenta la longitud de la solucion
+                        destino = 'I';                                      //Cambia la direccion de la hormiga hacia el inicio
+                        deltaFerormona = 1/longitudSolucion;                //Asigna el valor de delta ferormona
+                    } else{                                                 //Si la adyacencia a moverse no es el vértice final
+                        idVrtActual = sgt;                                  //El vertice actual es el siguiente
+                        memoria.push_back(idVrtActual);                     //Agrega el vertice a la memoria
+                        longitudSolucion++;                                 //Aumenta la longitud de la solucion
                     }  
                 }
             } else{
-                if(destino == 'I'){  
-                    Adyacencia ady(deltaFerormona,0.0);
-                    laberinto.asgDatoAdy(idVrtActual, memoria[memoria.size()-1] , ady);
-                    idVrtActual = memoria[memoria.size()-1];
-                    memoria.pop_back();
-                    if(idVrtActual == laberinto.obtIdVrtInicial()){
-                        haRegresado = true;
-                        memoria.pop_back();
+                if(destino == 'I'){                                         //Si la hormiga viene de regreso
+                    Adyacencia ady(deltaFerormona,0.0);                     //Crea una adyacencencia con delta ferormonas
+                    laberinto.asgDatoAdy(idVrtActual, memoria[memoria.size()-1] , ady); //Asigna delta ferormonas a la posicion de la que viene la hormiga
+                    idVrtActual = memoria[memoria.size()-1];                //Actualiza el vertice actual                
+                    memoria.pop_back();                                     //Borra el vertice anterior de la memoria
+                    if(idVrtActual == laberinto.obtIdVrtInicial()){         //Verifica si el vertice actual es el vertice inicio
+                        haRegresado = true;                                 //Dice que la hormiga ha regresado
+                        memoria.pop_back();                                 //Borra el último elemento de la memoria
                     }
                 }
             }
-        }
-        for(auto current: memoria){
-            cout<<"memoria"<<current<<endl;
         }
     }
 }
@@ -129,78 +116,72 @@ void Hormiga::retroceder() {
     srand (time(NULL));           
     enRetroceso = rand ()% (memoria.size()-1) + 1;                          //genera un random,
     for ( int i = 0; i <= enRetroceso; i++ ){                               //y retrocede esa cantidad de veces.
-        memoria.pop_back();
-        longitudSolucion--;
+        memoria.pop_back();                                                 //Borra el ultimo elemento de la memoria
+        longitudSolucion--;                                                 //Disminuye la longitud de la solucion
     }
-    idVrtActual = memoria[memoria.size()-1];
-    enRetroceso = 0;
+    idVrtActual = memoria[memoria.size()-1];                                //Cambia la posicion actual como el ultimo vertice de la memoria
+    enRetroceso = 0;                                                        //Termina de retroceder
 }
 
 int Hormiga::seleccionaAdyMasCargada(){
-    Laberinto& laberinto = *laberinto_p;                                    //para evitar notación ->
-    int sgtVrt = -1;
-    vector<int> vrtsPosibles;
-    laberinto.obtIdVrtAdys(idVrtActual,vrtsPosibles);
-    filtraVrtsPosibles(vrtsPosibles);
+    Laberinto& laberinto = *laberinto_p;                                    //Para evitar notación ->
+    int sgtVrt = -1;                                                        //Asigna inválido al siguiente
+    vector<int> vrtsPosibles;                                               //Crea el vector para los vértices posibles
+    laberinto.obtIdVrtAdys(idVrtActual,vrtsPosibles);                       //Encuentra los vértices adyacentes
+    filtraVrtsPosibles(vrtsPosibles);                                       //Filtra los vértices posibles
     
-    if(vrtsPosibles.size()>0){
-        vector<double> vecFerormonas;
+    if(vrtsPosibles.size()>0){                                              //Si hay vértices posibles
+        vector<double> vecFerormonas;                                       //Crea el vector de ferormonas
         double sumaFerormonas = 0.0;
         double ferormona=0.0;
         int cantidadDeCeros = 0;  
-        for(auto current: vrtsPosibles){
-            ferormona = laberinto.obtDatoAdy(idVrtActual,current).obtCntFerormona();
-            vecFerormonas.push_back(ferormona);
-            sumaFerormonas += ferormona;
-            if(ferormona==0.0){
-                cantidadDeCeros++;
+        for(auto current: vrtsPosibles){                                    //Recorre los vértices posibles
+            ferormona = laberinto.obtDatoAdy(idVrtActual,current).obtCntFerormona();//Obtiene la cantidad de fermona para cada vértice posible
+            vecFerormonas.push_back(ferormona);                             //Agrega la ferormona del vertice actual al vector de ferormonas
+            sumaFerormonas += ferormona;                                    //Suma la ferormona actual a la suma total de ferormonas
+            if(ferormona==0.0){                                             //Verifica si la ferormona es 0
+                cantidadDeCeros++;                                          //Suma la cantidad de ceros en el vector
             }
         }
         
-        vector<double> vecPorcentajes;
-        double porcentajeSumado = 0.0;
-        for (int k = 0; k < vecFerormonas.size(); k++) {
-            if (vecFerormonas[k] == 0.0) {
-                vecPorcentajes.push_back(porcentajeSumado + 0.01);
-                porcentajeSumado = porcentajeSumado + 0.01;
-            } else {
-                vecPorcentajes.push_back( porcentajeSumado + ( (vecFerormonas[k] / sumaFerormonas) * (1 - (cantidadDeCeros * (0.01))) ) );
-                porcentajeSumado = ((vecFerormonas[k] / sumaFerormonas) * (1 - (cantidadDeCeros * (0.01))));
+        vector<double> vecPorcentajes;                                      //Crea un vector de porcentajes
+        double porcentajeSumado = 0.0;                                      //Variable para sumar porcentajes, va de 0 a 1
+        for (int k = 0; k < vecFerormonas.size(); k++) {                    //Recorre el vector de ferormonas
+            if (vecFerormonas[k] == 0.0) {                                  //Si la ferormona es 0
+                vecPorcentajes.push_back(porcentajeSumado + 0.01);          //Agrega 0.01 de porcentaje a esa adyacencia
+                porcentajeSumado = porcentajeSumado + 0.01;                 //Aumenta el porcentaje sumado
+            } else {                                                        //Si no es 0
+                vecPorcentajes.push_back( porcentajeSumado + ( (vecFerormonas[k] / sumaFerormonas) * (1 - (cantidadDeCeros * (0.01))) ) );//Agrega al vector el porcentaje asignado a esa adyacencia, según la fórmula
+                porcentajeSumado = ((vecFerormonas[k] / sumaFerormonas) * (1 - (cantidadDeCeros * (0.01))));//Aumenta el porcentaje sumado
             }
         }
         
         srand (time(NULL));
-        double numeroAleatorio = (rand() % 1000 + 1) / 1000.0;
-        int m = 0;
-        if (numeroAleatorio <= vecPorcentajes[m]) {
-            sgtVrt = vrtsPosibles[m];
-        } else {
-            while ( numeroAleatorio > vecPorcentajes[m] ) {
-                m++;
-                if ( numeroAleatorio <= vecPorcentajes[m] ) {
-                    sgtVrt = vrtsPosibles[m];
+        double numeroAleatorio = (rand() % 1000 + 1) / 1000.0;              //Hace un random
+        int m = 0;                                                          //Posicion actual
+        if (numeroAleatorio <= vecPorcentajes[m]) {                         //Si el random esta en el rango de la posicion actual
+            sgtVrt = vrtsPosibles[m];                                       //El vertice siguiente es el vertice posible de la posicion actual
+        } else {                                                            
+            while ( numeroAleatorio > vecPorcentajes[m] ) {                 //Sigue buscando el rango en el que se encuentra el random
+                m++;                                                        //Mueve la posicion actual
+                if ( numeroAleatorio <= vecPorcentajes[m] ) {               //Si está en el rango de la posicion actual
+                    sgtVrt = vrtsPosibles[m];                               //El vertice siguiente es el vertice posible de la posicion actual
                 }
             }
         }
     }
-    return sgtVrt;
+    return sgtVrt;                                                          //Devuelve el siguiente vertice
 }
 
 void Hormiga::filtraVrtsPosibles(vector<int> &vrtsPosibles){
     Laberinto& laberinto = *laberinto_p;
-    for(auto current: vrtsPosibles){
-        cout<<"elemento antes: "<<current<<endl;
-    }
-    vector<int> copia;
-    for(auto current: vrtsPosibles){
-        if( find(memoria.begin(), memoria.end(), current) == memoria.end() ){
-            copia.push_back(current);
+    vector<int> copia;                                                      //Vector temporal para los vértices posibles
+    for(auto current: vrtsPosibles){                                        //Recorre los vértices posibles
+        if( find(memoria.begin(), memoria.end(), current) == memoria.end() ){//Si es válido
+            copia.push_back(current);                                       //Lo agrega al vector temporal
         }
     }
-    vrtsPosibles = copia;
-    for(auto current: vrtsPosibles){
-        cout<<"elemento después: "<<current<<endl;
-    }
+    vrtsPosibles = copia;                                                   //Le asigna al vector de vértices posibles el vector ya filtrado
 }
     
 void Hormiga::asgLaberinto(Laberinto& lbrt) {

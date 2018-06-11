@@ -207,32 +207,32 @@ int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, vector<int>& camino) con
         vector<int> vecAdy;
         bool encontrado = false;
         double cntFerormona;
-        camino.push_back(verticeActual);
-        while(!encontrado){
-            obtIdVrtAdys(verticeActual,vecAdy);
+        camino.push_back(verticeActual);                                   //Agrega el vertice origen al camino
+        while(!encontrado){                                                //Mientras no haya encontrado el vertice destino
+            obtIdVrtAdys(verticeActual,vecAdy);                            //Encuentra los adyacentes del vertice actual
             cntFerormona = 0.0;
-            for(auto current: vecAdy){
-                if(current==idVrtD){
-                    encontrado=true;
-                    camino.push_back(current);
-                    longitud++;
+            for(auto current: vecAdy){                                      //Busca el vertice destino en la lista de adyacentes
+                if(current==idVrtD){                                        //Si lo encontró
+                    encontrado=true;                                        //Encontrado es verdadero
+                    camino.push_back(current);                              //Lo agrega al camino
+                    longitud++;                                             //Aumenta la longitud del camino encontrado
                 }
             }
             
-            if(!encontrado){
-                for(auto current: vecAdy){
+            if(!encontrado){                                                //Si no lo ha encontrado
+                for(auto current: vecAdy){                                  //Busca el adyacente con mayor ferormona
                     if( obtDatoAdy(verticeActual,current).obtCntFerormona() > cntFerormona && ( find( camino.begin(),camino.end(),current) == camino.end() ) ){
                         verticeAdy = current;
                         cntFerormona = obtDatoAdy(verticeActual,current).obtCntFerormona();
                     }
                 }
-                verticeActual=verticeAdy;
-                camino.push_back(verticeActual);
-                longitud++;
+                verticeActual=verticeAdy;                                   //Una vez encontrado se mueve de vértice
+                camino.push_back(verticeActual);                            //Lo agraga al camino
+                longitud++;                                                 //Aumenta la longitud del cmaino encontrado
             }
         }
     }
-    return longitud;
+    return longitud;                                                        //Retorna la longitud del camino encontrado.
 }
 
 double Laberinto::sumaTotalFerormona() const {

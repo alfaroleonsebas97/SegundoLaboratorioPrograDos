@@ -41,16 +41,13 @@ void Simulador::iniciar(int idVrtInicial, int idVrtFinal, int cntHrm, double dec
     }
 }
 
-    // REQ: p >= 1;
-    // MOD: *this cambiando el estado del simulador y el laberinto.
-    // EFE: ejecuta p pasos de simulación
 void Simulador::ejecutar(int p) {
-    if( p >= 1 ){
-        for( int i = 0; i < p; i++ ){
-            for(auto current: hormigas){
+    if( p >= 1 ){                                                           //Si la cantidad de veces a ejecutar es mayor a 0.
+        for( int i = 0; i < p; i++ ){                                       //Lo ejecuta p veces
+            for(auto current: hormigas){                                    //Mueve todas las hormigas
                 current.mover();
             }
-            laberinto.decrementarFerormonaAdys(decrFerormona);
+            laberinto.decrementarFerormonaAdys(decrFerormona);              //Decrementa la ferormona 
         }
     }
 }

@@ -39,8 +39,6 @@ void testMover() {
         }
         if ( "{0,1,2,3}" == hormiga.obtMemoria() ) {
             std::cout << "%TEST_FAILED% time=0 testname=testMover (PbsHormiga) message=La hormiga llegó a camino sin salida y no retrocedió" << std::endl;
-        }else{
-            std::cout <<"pasó la primer prueba"<<std::endl;
         }
         archivo.close();
     }
@@ -62,7 +60,6 @@ void testMover() {
         if ( hormiga2.obtMemoria().size() >= 9  ) {
             std::cout << "%TEST_FAILED% time=0 testname=testMover (PbsHormiga) message=La hormiga se encicló y no retrocedió" << std::endl;
         }
-        else{std::cout<<"pasó la segunda prueba"<<std::endl;}
         archivo2.close();
     }
     
@@ -83,8 +80,7 @@ void testMover() {
         }
         if ( hormiga3.obtMemoria() != "{0,1,2,3}" ) {
             std::cout << "%TEST_FAILED% time=0 testname=testMover (PbsHormiga) message=La hormiga no llegó al vértice final" << std::endl;
-        }else{std::cout<<"pasó la tercer prueba"<<std::endl;}
-        std::cout<<hormiga3.obtMemoria()<<std::endl;
+        }
         archivo3.close();
     }
     
@@ -106,7 +102,6 @@ void testMover() {
         if ( (hormiga4.obtMemoria() != "{}") && (hormiga4.regreso()) ) {
             std::cout << "%TEST_FAILED% time=0 testname=testMover (PbsHormiga) message=La hormiga no regresó" << std::endl;
         }
-        else{std::cout<<"pasó la cuarta prueba"<<std::endl;}
     }
     archivo4.close();
 }
