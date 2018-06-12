@@ -73,39 +73,43 @@ void Hormiga::salir() {
     idVrtActual = laberinto.obtIdVrtInicial();                              //Obtiene el nodo inicial
     memoria.push_back(idVrtActual);                                         //Ubica la hormiga en el nodo inicial.
     haSalido = true;                                                        //Indica que la hormiga ha salido
+    haRegresado = false;
 }
 
 void Hormiga::mover() {
     if(haSalido){                                                           //Si la hormiga salió
         Laberinto& laberinto = *laberinto_p;                                //para evitar notación ->
-        if(!haRegresado){                                                   //Si la hormiga no ha regresado
-            if(destino == 'F'){                                             //Si la hormiga va hacia el vértice final
-                int sgt = seleccionaAdyMasCargada();                        //Selecciona la adyacencia más cargada de ferormona
-                if(sgt == -1){                                              //Si es una adyacencia inválida
-                    retroceder();                                           //Retrocede
-                }else{                                                      //Si es una adyacencia válida
-                    if(sgt == laberinto.obtIdVrtFinal()){                   //Si la adyacencia a moverse es el vértice final
-                        idVrtActual = sgt;                                  //La copia en la varible verticeActual
-                        memoria.push_back(idVrtActual);                     //Agrega el vertice actual a la memoria
-                        longitudSolucion++;                                 //Aumenta la longitud de la solucion
-                        destino = 'I';                                      //Cambia la direccion de la hormiga hacia el inicio
-                        deltaFerormona = 1/longitudSolucion;                //Asigna el valor de delta ferormona
-                    } else{                                                 //Si la adyacencia a moverse no es el vértice final
-                        idVrtActual = sgt;                                  //El vertice actual es el siguiente
-                        memoria.push_back(idVrtActual);                     //Agrega el vertice a la memoria
-                        longitudSolucion++;                                 //Aumenta la longitud de la solucion
-                    }  
-                }
-            } else{
-                if(destino == 'I'){                                         //Si la hormiga viene de regreso
-                    Adyacencia ady(deltaFerormona,0.0);                     //Crea una adyacencencia con delta ferormonas
-                    laberinto.asgDatoAdy(idVrtActual, memoria[memoria.size()-1] , ady); //Asigna delta ferormonas a la posicion de la que viene la hormiga
-                    idVrtActual = memoria[memoria.size()-1];                //Actualiza el vertice actual                
-                    memoria.pop_back();                                     //Borra el vertice anterior de la memoria
-                    if(idVrtActual == laberinto.obtIdVrtInicial()){         //Verifica si el vertice actual es el vertice inicio
-                        haRegresado = true;                                 //Dice que la hormiga ha regresado
-                        memoria.pop_back();                                 //Borra el último elemento de la memoria
-                    }
+        if(destino == 'F'){                                                 //Si la hormiga va hacia el vértice final
+            int sgt = seleccionaAdyMasCargada();                            //Selecciona la adyacencia más cargada de ferormona
+            if(sgt == -1){                                                  //Si es una adyacencia inválida
+                retroceder();                                               //Retrocede
+            }else{                                                          //Si es una adyacencia válida
+                if(sgt == laberinto.obtIdVrtFinal()){                       //Si la adyacencia a moverse es el vértice final
+                    idVrtActual = sgt;                                      //La copia en la varible verticeActual
+                    memoria.push_back(idVrtActual);                         //Agrega el vertice actual a la memoria
+                    longitudSolucion++;                                     //Aumenta la longitud de la solucion
+                    destino = 'I';                                          //Cambia la direccion de la hormiga hacia el inicio
+                    deltaFerormona = (1.0/longitudSolucion);                  //Asigna el valor de delta ferormona
+                } else{                                                     //Si la adyacencia a moverse no es el vértice final
+                    idVrtActual = sgt;                                      //El vertice actual es el siguiente
+                    memoria.push_back(idVrtActual);                         //Agrega el vertice a la memoria
+                    longitudSolucion++;                                     //Aumenta la longitud de la solucion
+                }  
+            }
+        } else{
+            if(destino == 'I'){                                             //Si la hormiga viene de regreso
+                Adyacencia ady(deltaFerormona,0.0);                         //Crea una adyacencencia con delta ferormonas
+                laberinto.asgDatoAdy(idVrtActual, memoria[memoria.size()-1] , ady);//Asigna delta ferormonas a la posicion de la que viene la hormiga
+                idVrtActual = memoria[memoria.size()-1];                    //Actualiza el vertice actual                
+                memoria.pop_back();                                         //Borra el vertice anterior de la memoria
+                
+                if(idVrtActual == laberinto.obtIdVrtInicial()){             //Verifica si el vertice actual es el vertice inicio
+                    haRegresado = true;                                     //Dice que la hormiga ha regresado
+                    memoria.clear();
+                    idVrtActual = -1;
+                    destino = 'F';
+                    longitudSolucion = 0;
+                    deltaFerormona = 0.0;
                 }
             }
         }
@@ -144,28 +148,34 @@ int Hormiga::seleccionaAdyMasCargada(){
             }
         }
         
-        vector<double> vecPorcentajes;                                      //Crea un vector de porcentajes
-        double porcentajeSumado = 0.0;                                      //Variable para sumar porcentajes, va de 0 a 1
-        for (int k = 0; k < vecFerormonas.size(); k++) {                    //Recorre el vector de ferormonas
-            if (vecFerormonas[k] == 0.0) {                                  //Si la ferormona es 0
-                vecPorcentajes.push_back(porcentajeSumado + 0.01);          //Agrega 0.01 de porcentaje a esa adyacencia
-                porcentajeSumado = porcentajeSumado + 0.01;                 //Aumenta el porcentaje sumado
-            } else {                                                        //Si no es 0
-                vecPorcentajes.push_back( porcentajeSumado + ( (vecFerormonas[k] / sumaFerormonas) * (1 - (cantidadDeCeros * (0.01))) ) );//Agrega al vector el porcentaje asignado a esa adyacencia, según la fórmula
-                porcentajeSumado = ((vecFerormonas[k] / sumaFerormonas) * (1 - (cantidadDeCeros * (0.01))));//Aumenta el porcentaje sumado
+        if( sumaFerormonas == 0.0 ){
+            srand (time(NULL));
+            double random = rand() % cantidadDeCeros;                       //Hace un random
+            sgtVrt = vrtsPosibles[random];
+        }else{
+            vector<double> vecPorcentajes;                                  //Crea un vector de porcentajes
+            double porcentajeSumado = 0.0;                                  //Variable para sumar porcentajes, va de 0 a 1
+            for (int k = 0; k < vecFerormonas.size(); k++) {                //Recorre el vector de ferormonas
+                if (vecFerormonas[k] == 0.0) {                              //Si la ferormona es 0
+                    vecPorcentajes.push_back(porcentajeSumado + 0.01);      //Agrega 0.01 de porcentaje a esa adyacencia
+                    porcentajeSumado = porcentajeSumado + 0.01;             //Aumenta el porcentaje sumado
+                } else {                                                    //Si no es 0
+                    vecPorcentajes.push_back( porcentajeSumado + ( (vecFerormonas[k] / sumaFerormonas) * (1 - (cantidadDeCeros * (0.01))) ) );//Agrega al vector el porcentaje asignado a esa adyacencia, según la fórmula
+                    porcentajeSumado = ((vecFerormonas[k] / sumaFerormonas) * (1 - (cantidadDeCeros * (0.01))));//Aumenta el porcentaje sumado
+                }
             }
-        }
         
-        srand (time(NULL));
-        double numeroAleatorio = (rand() % 1000 + 1) / 1000.0;              //Hace un random
-        int m = 0;                                                          //Posicion actual
-        if (numeroAleatorio <= vecPorcentajes[m]) {                         //Si el random esta en el rango de la posicion actual
-            sgtVrt = vrtsPosibles[m];                                       //El vertice siguiente es el vertice posible de la posicion actual
-        } else {                                                            
-            while ( numeroAleatorio > vecPorcentajes[m] ) {                 //Sigue buscando el rango en el que se encuentra el random
-                m++;                                                        //Mueve la posicion actual
-                if ( numeroAleatorio <= vecPorcentajes[m] ) {               //Si está en el rango de la posicion actual
-                    sgtVrt = vrtsPosibles[m];                               //El vertice siguiente es el vertice posible de la posicion actual
+            srand (time(NULL));
+            double numeroAleatorio = (rand() % 1000 + 1) / 1000.0;          //Hace un random
+            int m = 0;                                                      //Posicion actual
+            if (numeroAleatorio <= vecPorcentajes[m]) {                     //Si el random esta en el rango de la posicion actual
+                sgtVrt = vrtsPosibles[m];                                   //El vertice siguiente es el vertice posible de la posicion actual
+            } else {                                                            
+                while ( numeroAleatorio > vecPorcentajes[m] ) {             //Sigue buscando el rango en el que se encuentra el random
+                    m++;                                                    //Mueve la posicion actual
+                    if ( numeroAleatorio <= vecPorcentajes[m] ) {           //Si está en el rango de la posicion actual
+                        sgtVrt = vrtsPosibles[m];                           //El vertice siguiente es el vertice posible de la posicion actual
+                    }
                 }
             }
         }

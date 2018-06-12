@@ -13,7 +13,6 @@
 
 #include "Laberinto.h"
 
-
 Laberinto::Laberinto(int cantidadVrts, double probabilidadAdy){
     vertices.resize(cantidadVrts);                                          //le da tamaño al vector de vértices.
     idVrtInicial = -1;                                                      //inicializa en inválido
@@ -207,9 +206,9 @@ int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, vector<int>& camino) con
         vector<int> vecAdy;
         bool encontrado = false;
         double cntFerormona;
-        camino.push_back(verticeActual);                                   //Agrega el vertice origen al camino
-        while(!encontrado){                                                //Mientras no haya encontrado el vertice destino
-            obtIdVrtAdys(verticeActual,vecAdy);                            //Encuentra los adyacentes del vertice actual
+        camino.push_back(verticeActual);                                    //Agrega el vertice origen al camino
+        while(!encontrado){                                                 //Mientras no haya encontrado el vertice destino
+            obtIdVrtAdys(verticeActual,vecAdy);                             //Encuentra los adyacentes del vertice actual
             cntFerormona = 0.0;
             for(auto current: vecAdy){                                      //Busca el vertice destino en la lista de adyacentes
                 if(current==idVrtD){                                        //Si lo encontró
@@ -218,12 +217,11 @@ int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, vector<int>& camino) con
                     longitud++;                                             //Aumenta la longitud del camino encontrado
                 }
             }
-            
             if(!encontrado){                                                //Si no lo ha encontrado
-                for(auto current: vecAdy){                                  //Busca el adyacente con mayor ferormona
-                    if( obtDatoAdy(verticeActual,current).obtCntFerormona() > cntFerormona && ( find( camino.begin(),camino.end(),current) == camino.end() ) ){
-                        verticeAdy = current;
-                        cntFerormona = obtDatoAdy(verticeActual,current).obtCntFerormona();
+                for(int i = 0 ;i < vecAdy.size(); i++ ){                    //Busca el adyacente con mayor ferormona
+                    if( ( obtDatoAdy(verticeActual,vecAdy[i]).obtCntFerormona() >= cntFerormona )&& ( find( camino.begin(),camino.end(),vecAdy[i]) == camino.end() ) ){
+                        verticeAdy = vecAdy[i];
+                        cntFerormona = obtDatoAdy(verticeActual,vecAdy[i]).obtCntFerormona();
                     }
                 }
                 verticeActual=verticeAdy;                                   //Una vez encontrado se mueve de vértice
@@ -232,6 +230,7 @@ int Laberinto::caminoEncontrado(int idVrtO, int idVrtD, vector<int>& camino) con
             }
         }
     }
+    
     return longitud;                                                        //Retorna la longitud del camino encontrado.
 }
 

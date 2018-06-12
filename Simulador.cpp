@@ -43,9 +43,15 @@ void Simulador::iniciar(int idVrtInicial, int idVrtFinal, int cntHrm, double dec
 
 void Simulador::ejecutar(int p) {
     if( p >= 1 ){                                                           //Si la cantidad de veces a ejecutar es mayor a 0.
+        for(int k = 0; k < cantidadHormigas; k++){                                        //Mueve todas las hormigas
+                hormigas[k].salir();
+        }
         for( int i = 0; i < p; i++ ){                                       //Lo ejecuta p veces
-            for(auto current: hormigas){                                    //Mueve todas las hormigas
-                current.mover();
+            for( int j = 0; j < cantidadHormigas; j++ ){                    //Mueve todas las hormigas
+                if(hormigas[j].regreso()){
+                    hormigas[j].salir();
+                }
+                hormigas[j].mover();
             }
             laberinto.decrementarFerormonaAdys(decrFerormona);              //Decrementa la ferormona 
         }
