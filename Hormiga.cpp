@@ -73,7 +73,6 @@ void Hormiga::salir() {
     idVrtActual = laberinto.obtIdVrtInicial();                              //Obtiene el nodo inicial
     memoria.push_back(idVrtActual);                                         //Ubica la hormiga en el nodo inicial.
     haSalido = true;                                                        //Indica que la hormiga ha salido
-    haRegresado = false;
 }
 
 void Hormiga::mover() {
@@ -89,7 +88,7 @@ void Hormiga::mover() {
                     memoria.push_back(idVrtActual);                         //Agrega el vertice actual a la memoria
                     longitudSolucion++;                                     //Aumenta la longitud de la solucion
                     destino = 'I';                                          //Cambia la direccion de la hormiga hacia el inicio
-                    deltaFerormona = (1.0/longitudSolucion);                  //Asigna el valor de delta ferormona
+                    deltaFerormona = (1.0/longitudSolucion);                //Asigna el valor de delta ferormona
                 } else{                                                     //Si la adyacencia a moverse no es el vértice final
                     idVrtActual = sgt;                                      //El vertice actual es el siguiente
                     memoria.push_back(idVrtActual);                         //Agrega el vertice a la memoria
@@ -107,9 +106,6 @@ void Hormiga::mover() {
                     haRegresado = true;                                     //Dice que la hormiga ha regresado
                     memoria.clear();
                     idVrtActual = -1;
-                    destino = 'F';
-                    longitudSolucion = 0;
-                    deltaFerormona = 0.0;
                 }
             }
         }
@@ -195,5 +191,5 @@ void Hormiga::filtraVrtsPosibles(vector<int> &vrtsPosibles){
 }
     
 void Hormiga::asgLaberinto(Laberinto& lbrt) {
-    Hormiga::laberinto_p = &lbrt; // asigna valor al puntero, indirectamente a referencia!!
+    Hormiga::laberinto_p = &lbrt;                                           // asigna valor al puntero, indirectamente a referencia!!
 }

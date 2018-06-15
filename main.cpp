@@ -18,7 +18,6 @@ using namespace std;
 
 #include "Laberinto.h"
 #include "Simulador.h"
-#include "Hormiga.h"
 /*
  * 
  */
@@ -29,8 +28,6 @@ int main(int argc, char** argv) {
         Laberinto laberinto(archivo);
         int verticeInicial = 0;
         int verticeFinal = 8;
-        laberinto.asgIdVrtInicial(verticeInicial);
-        laberinto.asgIdVrtFinal(verticeFinal);
         Simulador simulador(laberinto);
         simulador.iniciar(verticeInicial,verticeFinal,30,0.95,0.11);
         simulador.ejecutar(1000);
@@ -49,8 +46,6 @@ int main(int argc, char** argv) {
         Laberinto laberinto2(archivo2);
         int verticeInicial = 0;
         int verticeFinal = 8;
-        laberinto2.asgIdVrtInicial(verticeInicial);
-        laberinto2.asgIdVrtFinal(verticeFinal);
         Simulador simulador2(laberinto2);
         simulador2.iniciar(verticeInicial,verticeFinal,300,0.95,0.11);
         simulador2.ejecutar(10000);
@@ -63,14 +58,12 @@ int main(int argc, char** argv) {
          archivo2.close();
     }
     
-        ifstream archivo3("laberintom.txt");
+    ifstream archivo3("laberintom.txt");
     if (archivo3.is_open()) {
         vector<int> vecCamino3;
         Laberinto laberinto3(archivo3);
         int verticeInicial = 0;
         int verticeFinal = 35;
-        laberinto3.asgIdVrtInicial(verticeInicial);
-        laberinto3.asgIdVrtFinal(verticeFinal);
         Simulador simulador3(laberinto3);
         simulador3.iniciar(verticeInicial,verticeFinal,30,0.95,0.99);
         simulador3.ejecutar(1000);
@@ -89,8 +82,6 @@ int main(int argc, char** argv) {
         Laberinto laberinto4(archivo4);
         int verticeInicial = 0;
         int verticeFinal = 35;
-        laberinto4.asgIdVrtInicial(verticeInicial);
-        laberinto4.asgIdVrtFinal(verticeFinal);
         Simulador simulador4(laberinto4);
         simulador4.iniciar(verticeInicial,verticeFinal,300,0.95,0.99);
         simulador4.ejecutar(10000);
